@@ -1,0 +1,180 @@
+@use "sass:map";
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+
+$t-blue: #003549;
+$t-red: #d62828;
+$t-orange: #f77f00;
+$t-yellow: #fcbf49;
+$t-green: #7fb685;
+
+$t-colors: (
+  "t-blue": $t-blue,
+  "t-red": $t-red,
+  "t-orange": $t-orange,
+  "t-yellow": $t-yellow,
+  "t-green": $t-green,
+  "cyan": $cyan-500,
+  "blue": $blue-500,
+  "indigo": $indigo-500,
+  "purple": $purple-500,
+  "pink": $pink-500,
+  "green": $green-500,
+  "gray": $gray-600
+);
+
+$morning-dawn: #E8E8E8;
+$morning: #D6D6D6;
+$noon: #BFBFBF;
+$afternoon: #A9A9A9;
+$evening: #7F7F7F;
+$night: #595959;
+
+$t-grays: (
+  "morning-dawn": $morning-dawn,
+  "morning": $morning,
+  "noon": $noon,
+  "afternoon": $afternoon,
+  "evening": $evening,
+  "night": $night
+);
+
+$all-t-colors: map.merge($t-colors, $t-grays);
+
+@each $color, $value in $t-colors {
+  .badge-colored-#{$color} {
+    color: shift-color($value, 45%);
+    background-color: opaque(#fff, rgba($value, 0.35));
+
+    border: var(--bs-border-width) solid $value;
+    border-radius: 20rem;
+  }
+}
+
+@each $color, $value in $t-grays {
+  .badge-colored-#{$color} {
+    color: color-contrast($value);
+    background-color: $value;
+
+    border: var(--bs-border-width) solid color-contrast($value);
+    border-radius: 20rem;
+  }
+}
+
+@each $color, $value in $t-colors {
+  .dot-colored-#{$color} {
+    --dot-width: 1rem;
+
+    display: inline-block;
+
+    background-color: opaque(#fff, rgba($value, 0.35));
+    border: var(--bs-border-width) solid $value;
+    border-radius: 50%;
+
+    width: var(--dot-width);
+    height: var(--dot-width);
+    aspect-ratio: 1;
+    line-height: 1rem;
+  }
+}
+
+@each $color, $value in $t-grays {
+  .dot-colored-#{$color} {
+    --dot-width: 1rem;
+
+    display: inline-block;
+
+    background-color: $value;
+    border: var(--bs-border-width) solid darken($value, 30);
+    border-radius: 50%;
+
+    width: var(--dot-width);
+    height: var(--dot-width);
+    aspect-ratio: 1;
+    line-height: 1rem;
+  }
+}
+
+@each $color, $value in $t-colors {
+  .tooltip-colored-#{$color} {
+    $fg-color: $value;
+    $bg-color: opaque(#fff, rgba($value, 0.35));
+
+    --bs-tooltip-bg: #{$bg-color};
+    --bs-tooltip-opacity: 1;
+    --bs-tooltip-color: #{$fg-color};
+
+    font-weight: 500;
+  }
+}
+
+@each $color, $value in $t-grays {
+  .tooltip-colored-#{$color} {
+    $fg-color: color-contrast($value);
+    $bg-color: opaque(#fff, rgba($value, 0.35));
+
+    --bs-tooltip-bg: #{$bg-color};
+    --bs-tooltip-opacity: 1;
+    --bs-tooltip-color: #{$fg-color};
+
+    font-weight: 500;
+  }
+}
+
+.dot-preview {
+  --dot-width: 1.25rem;
+}
+
+.color-picker-dot {
+  --dot-width: 3rem;
+}
+
+
+/**
+ Create CSS classes for each color defined in t-colors. The resulting
+ classes are named `bg-color-<color-name>` and `text-<color-name>`.
+ */
+$all-colors: map-merge-multiple($t-colors, $t-grays, $blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans);
+$all-colors-without-grays: map-merge-multiple($t-colors, $blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans);
+
+$utilities: map.merge(
+    $utilities,
+    (
+      "bg-color": map-merge(
+          map-get($utilities, "background-color"),
+          (
+            values: map-merge(
+                map-get(map-get($utilities, "background-color"), "values"),
+                  (
+                    $all-colors
+                  ),
+            ),
+          ),
+      ),
+    )
+);
+
+$utilities: map.merge(
+    $utilities,
+    (
+      "fg-color": map.merge(
+          map.get($utilities, "color"),
+          (
+            values: map.merge(
+                map.get(map.get($utilities, "color"), "values"),
+                  (
+                    $all-colors-without-grays
+                  )
+            )
+          )
+      )
+    )
+);
+
+@import "bootstrap/scss/utilities/api";

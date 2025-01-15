@@ -1,0 +1,69 @@
+.sidebar {
+  background: var(--bs-tertiary-bg);
+
+  padding: 1rem 1rem 0.5rem;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--t-sidebar-width);
+
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+
+  &-header {
+    margin-bottom: 2rem;
+  }
+
+  &-body {
+    flex-grow: 1;
+  }
+
+  .sidebar-footer {
+    --bs-link-color-rgb: var(--bs-gray-600);
+
+    color: var(--bs-gray-600);
+    font-size: 0.8rem;
+    font-weight: 300;
+  }
+
+  .tooltip {
+    display: none;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  color: var(--bs-primary);
+
+  .brand-logo {
+    border: 2.5px solid var(--bs-primary);
+    border-radius: 0.75rem;
+
+    margin-right: 0.5rem;
+
+    height: 3rem;
+    aspect-ratio: 1;
+
+    font-size: 1.9rem;
+    text-align: center;
+  }
+
+  .text-logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    line-height: 1;
+
+    h2 {
+      font-size: 1.25rem;
+    }
+
+    small {
+      font-weight: 350;
+    }
+  }
+}
