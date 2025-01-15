@@ -4,3 +4,157 @@
 /* Importing Bootstrap SCSS file. */
 @use 'bootstrap/scss/bootstrap';
 @use "bootstrap-icons/font/bootstrap-icons.css";
+
+@use "app/styles/variables";
+@use "app/styles/sidebar";
+@use "app/styles/start";
+
+
+small, .small {
+  font-weight: 300;
+}
+
+
+.app-layout {
+  --t-sidebar-width: 28ch;
+  --t-top-bar-height: 3.25rem;
+  --t-main-margin: 0.5rem;
+  --t-tool-bar-height: 4rem;
+  --t-main-height: calc(100vh - 2 * var(--t-main-margin));
+  --t-list-height: calc(var(--t-main-height) - var(--t-top-bar-height) - var(--t-tool-bar-height) - 3rem);
+  --t-preview-height: 17rem;
+
+  display: grid;
+  grid-template-areas:
+    "sidebar main";
+  grid-template-columns: var(--t-sidebar-width) 1fr;
+  grid-template-rows: var(--t-top-bar-height) 1fr;
+
+  height: 100vh;
+  background: var(--bs-tertiary-bg);
+  overflow: hidden;
+}
+
+.sidebar {
+  grid-area: sidebar;
+}
+
+.main {
+  grid-area: main;
+
+  margin: var(--t-main-margin);
+  margin-left: 0;
+  padding: 1rem 2rem;
+  height: var(--t-main-height);
+
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: 0.75rem;
+  background: var(--bs-body-bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  overflow: hidden;
+}
+
+.top-bar {
+  grid-area: topbar;
+
+  display: flex;
+
+  height: var(--t-top-bar-height);
+
+  background: var(--bs-body-bg);
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+}
+
+.settings {
+  --t-list-height: calc(var(--t-main-height) - var(--t-top-bar-height) - 3rem);
+}
+
+.content-area {
+  height: var(--t-list-height);
+  overflow: hidden;
+  padding-inline-end: 0.1rem;
+}
+
+.scrollable-area {
+  max-height: 100%;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.grabber {
+  cursor: grab;
+}
+
+.grabber:active {
+  cursor: grabbing;
+}
+
+.max-height {
+  flex-grow: 1;
+}
+
+.btn-icon.btn-sm {
+  line-height: 1;
+  padding: 0;
+
+  i {
+    font-size: 2rem;
+  }
+}
+
+.badge-list {
+  display: flex;
+  gap: 1rem;
+}
+
+.fit-height {
+  height: fit-content;
+}
+
+.vertical-separator {
+  height: 1.75rem;
+}
+
+.tooltip-danger {
+  --bs-tooltip-bg: var(--bs-danger);
+  --bs-tooltip-opacity: 1;
+}
+
+
+@media screen and (max-width: 1350px) {
+  .persons {
+    --t-tool-bar-height: 6rem;
+
+    .toolbar {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .app-layout {
+    --t-sidebar-width: 8ch;
+  }
+
+  .sidebar {
+    .tooltip {
+      display: block;
+    }
+  }
+
+  .nav-title,
+  .brand .text-logo,
+  .sidebar-footer {
+    display: none;
+  }
+}

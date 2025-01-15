@@ -1,0 +1,26 @@
+<ul ngbNav
+    [(activeId)]="active"
+    class="nav-pills"
+    orientation="vertical">
+
+  @for (navItem of navItems; track navItem) {
+    @if (navItem.link === 'settings') {
+      <li class="vertical-separator">
+        <hr>
+      </li>
+    }
+
+    <li [ngbNavItem]="navItem.title">
+      <a ngbNavLink
+         [routerLink]="navItem.link"
+         [routerLinkActive]="'active'">
+        @if (navItem.icon) {
+          <i class="bi-{{ navItem.icon }} me-2"
+             [ngbTooltip]="navItem.title"></i>
+        }
+
+        <span class="nav-title">{{ navItem.title }}</span>
+      </a>
+    </li>
+  }
+</ul>
