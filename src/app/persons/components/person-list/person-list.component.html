@@ -37,10 +37,20 @@
 </div>
 
 <div class="content-area scrollable-area">
+  @if (personToEdit) {
+    <div class="mb-4">
+      <app-person-edit
+          [person]="personToEdit"
+          (cancelled)="onEditCancelled()"
+          (saved)="onEditSaved($event)"
+      />
+    </div>
+  }
+
   <ul class="list-group">
     @for (person of filteredPersons$ | async; track person.id) {
       <li class="list-group-item list-group-item-action pointer">
-        <app-person-view [person]="person"/>
+        <app-person-view [person]="person" (edit)="onEdit(person)"/>
       </li>
     }
   </ul>
