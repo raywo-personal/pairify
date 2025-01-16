@@ -1,0 +1,47 @@
+@if (showIcon()) {
+  <i class="bi-trash"></i>
+}
+
+@if (caption()) {
+  <span class="ms-2">{{ caption() }}</span>
+} @else {
+  <span class="visually-hidden ms-2" i18n="button caption|@@t.deleteButtonCaption">
+    Delete
+  </span>
+}
+
+<ng-template #modalContent let-modal>
+  <div class="modal-header">
+    @if (confirmationTitle()) {
+      <h3 class="modal-title">{{ confirmationTitle() }}</h3>
+    } @else {
+      <h3 class="modal-title"><i class="bi-trash h4 text-danger"></i>
+        <ng-container i18n="heading|@@t.deleteHeading">Delete</ng-container>
+      </h3>
+    }
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="modal-body">
+    @if (confirmationMessage()) {
+      {{ confirmationMessage() }}
+    } @else {
+      <p i18n="generic question|@@t.deleteAreYouSure">Are you sure you want to delete this item?</p>
+    }
+  </div>
+
+  <div class="modal-footer border-top">
+    <button type="button"
+            class="btn btn-outline-secondary"
+            (click)="modal.dismiss('Cancel')"
+            i18n="button caption|@@t.cancelButtonCaption">
+      Cancel
+    </button>
+    <button type="button"
+            class="btn btn-danger"
+            (click)="modal.close('Delete')"
+            i18n="button caption|@@t.deleteButtonCaption">
+      Delete
+    </button>
+  </div>
+</ng-template>
