@@ -60,6 +60,11 @@ export class PersonListComponent {
   }
 
 
+  protected onAddCancelled() {
+    this.personToAdd = undefined;
+  }
+
+
   protected onEditCancelled() {
     this.personToEdit = undefined;
   }
@@ -92,5 +97,4 @@ export class PersonListComponent {
   protected onDeleted(person: Person) {
     this.personService.removePerson(person);
   }
-
 }
