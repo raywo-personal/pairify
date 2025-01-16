@@ -1,14 +1,9 @@
-import {effect, Injectable, signal} from '@angular/core';
-import {createPerson, Person} from '../models/person.model';
+import {effect, inject, Injectable, signal} from '@angular/core';
+import {Person} from '../models/person.model';
 import {BehaviorSubject, map} from 'rxjs';
 import {SortOrder, stringCompare} from '../../shared/helper/comparison';
-
-
-const fakePersons: Person[] = [
-  createPerson("Peter"),
-  createPerson("Paul"),
-  createPerson("Mary")
-];
+import {EventBusService} from '../../shared/event-bus/event-bus.service';
+import {createBusEvent, EventType} from '../../shared/event-bus/event.model';
 
 
 @Injectable({
@@ -16,7 +11,9 @@ const fakePersons: Person[] = [
 })
 export class PersonService {
 
-  private personsSubject = new BehaviorSubject<Person[]>(fakePersons);
+  private eventBus = inject(EventBusService);
+
+  private personsSubject = new BehaviorSubject<Person[]>([]);
   public readonly persons$ = this.personsSubject.asObservable();
 
   private filteredPersonsSubject = new BehaviorSubject<Person[]>([]);
@@ -42,26 +39,34 @@ export class PersonService {
   }
 
 
-  public addPerson(person: Person) {
+  public addPerson(person: Person, isRestore = false) {
     this.persons = this.persons.concat(person);
     this.filteredPersons = this.filteredPersons.concat(person);
+
+    if (!isRestore) this.eventBus.emit(createBusEvent(EventType.PERSON_CREATED, person));
   }
 
 
   public updatePerson(person: Person) {
     this.persons = this.persons.map(p => p.id === person.id ? person : p);
     this.filteredPersons = this.filteredPersons.map(p => p.id === person.id ? person : p);
+
+    this.eventBus.emit(createBusEvent(EventType.PERSON_UPDATED, person));
   }
 
 
   public deleteAll() {
     this.persons.forEach(p => this.removePerson(p));
+
+    this.eventBus.emit(createBusEvent(EventType.PERSONS_RESET));
   }
 
 
   public removePerson(person: Person) {
     this.persons = this.persons.filter(p => p.id !== person.id);
     this.filteredPersons = this.filteredPersons.filter(p => p.id !== person.id);
+
+    this.eventBus.emit(createBusEvent(EventType.PERSON_DELETED, person));
   }
 
 
@@ -85,7 +90,7 @@ export class PersonService {
   }
 
 
-  private get persons(): Person[] {
+  public get persons(): Person[] {
     return this.personsSubject.getValue();
   }
 

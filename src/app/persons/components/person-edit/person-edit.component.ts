@@ -43,7 +43,7 @@ export class PersonEditComponent {
 
 
   protected onKeyUp(keyboardEvent: KeyboardEvent) {
-    if (keyboardEvent.key !== "Esc") {
+    if (keyboardEvent.key === "Escape") {
       this.cancelled.emit();
     }
   }
