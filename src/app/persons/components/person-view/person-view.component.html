@@ -1,7 +1,13 @@
 <div class="person-view">
-  <div class="person-view-name">
-    {{ person().name }}
-  </div>
+  @if (editing()) {
+    <app-person-edit [person]="person()"
+                     (cancelled)="onEditCancelled()"
+                     (saved)="onEditSaved($event)"/>
+  } @else {
+    <div class="person-view-name">
+      {{ person().name }}
+    </div>
+  }
 
   <div class="person-view-buttons">
     <button class="btn btn-outline-primary btn-sm"

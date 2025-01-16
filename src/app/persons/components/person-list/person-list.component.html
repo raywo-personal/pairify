@@ -37,10 +37,10 @@
 </div>
 
 <div class="content-area scrollable-area">
-  @if (personToEdit) {
+  @if (personToAdd) {
     <div class="mb-4">
       <app-person-edit
-          [person]="personToEdit"
+          [person]="personToAdd"
           (cancelled)="onEditCancelled()"
           (saved)="onEditSaved($event)"
       />
@@ -49,8 +49,15 @@
 
   <ul class="list-group">
     @for (person of filteredPersons$ | async; track person.id) {
-      <li class="list-group-item list-group-item-action pointer">
-        <app-person-view [person]="person" (edit)="onEdit(person)"/>
+      <li class="list-group-item list-group-item-action pointer"
+          (click)="onEditPersonClick(person)"
+          (keyup)="onEditPersonKeyup(person, $event)"
+          tabindex="1">
+        <app-person-view [person]="person"
+                         [editing]="personToEdit?.id === person.id"
+                         (edited)="onEdited($event)"
+                         (delete)="onDeleted($event)"
+                         (editCancelled)="onEditCancelled()"/>
       </li>
     }
   </ul>

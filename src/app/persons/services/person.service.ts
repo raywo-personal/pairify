@@ -48,6 +48,12 @@ export class PersonService {
   }
 
 
+  public updatePerson(person: Person) {
+    this.persons = this.persons.map(p => p.id === person.id ? person : p);
+    this.filteredPersons = this.filteredPersons.map(p => p.id === person.id ? person : p);
+  }
+
+
   public deleteAll() {
     this.persons.forEach(p => this.removePerson(p));
   }

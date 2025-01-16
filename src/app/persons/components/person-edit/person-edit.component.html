@@ -1,4 +1,7 @@
-<form class="py-2" (ngSubmit)="onSubmit()" #personForm="ngForm">
+<form class="py-2"
+      (ngSubmit)="onSubmit()"
+      (keyup)="onKeyUp($event)"
+      #personForm="ngForm">
   <div class="hstack gap-2 p-1">
     <div class="w-100"
          [class.was-validated]="nameInput.dirty || nameInput.touched">

@@ -40,4 +40,11 @@ export class PersonEditComponent {
 
     this.saved.emit(person);
   }
+
+
+  protected onKeyUp(keyboardEvent: KeyboardEvent) {
+    if (keyboardEvent.key !== "Esc") {
+      this.cancelled.emit();
+    }
+  }
 }

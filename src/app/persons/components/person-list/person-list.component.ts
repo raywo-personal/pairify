@@ -33,17 +33,12 @@ export class PersonListComponent {
     .pipe(map(persons => persons.map(p => p.name)));
 
   protected nameSortOrder = "asc";
+  protected personToAdd?: Person;
   protected personToEdit?: Person;
-
-  private editPerson = false;
-
-
-  // protected addPerson = true;
 
 
   protected onAdd() {
-    this.personToEdit = createPerson("");
-    this.editPerson = false;
+    this.personToAdd = createPerson("");
   }
 
 
@@ -72,12 +67,30 @@ export class PersonListComponent {
 
   protected onEditSaved(person: Person) {
     this.personService.addPerson(person);
-    this.personToEdit = createPerson("");
+    this.personToAdd = createPerson("");
   }
 
 
-  protected onEdit(person: Person) {
+  protected onEdited(person: Person) {
+    this.personService.updatePerson(person);
+    this.personToEdit = undefined;
+  }
+
+
+  protected onEditPersonClick(person: Person) {
     this.personToEdit = person;
-    this.editPerson = true;
   }
+
+
+  protected onEditPersonKeyup(person: Person, keyboardEvent: KeyboardEvent) {
+    if (keyboardEvent.key === "Space") {
+      this.onEditPersonClick(person);
+    }
+  }
+
+
+  protected onDeleted(person: Person) {
+    this.personService.removePerson(person);
+  }
+
 }
