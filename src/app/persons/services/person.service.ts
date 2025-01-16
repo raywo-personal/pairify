@@ -44,6 +44,7 @@ export class PersonService {
 
   public addPerson(person: Person) {
     this.persons = this.persons.concat(person);
+    this.filteredPersons = this.filteredPersons.concat(person);
   }
 
 

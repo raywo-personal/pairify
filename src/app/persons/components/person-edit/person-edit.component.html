@@ -1,0 +1,41 @@
+<form class="py-2" (ngSubmit)="onSubmit()" #personForm="ngForm">
+  <div class="hstack gap-2 p-1">
+    <div class="w-100"
+         [class.was-validated]="nameInput.dirty || nameInput.touched">
+      <label for="nameInput"
+             class="visually-hidden form-label"
+             i18n="@@p.nameLabel">
+        Name
+      </label>
+      <input type="text"
+             id="nameInput"
+             class="form-control"
+             name="name"
+             placeholder="Name"
+             required
+             minlength="2"
+             maxlength="100"
+             i18n-placeholder="@@p.nameLabel"
+             [(ngModel)]="name"
+             #nameInput="ngModel"
+             appAutofocus>
+      <div class="invalid-feedback" i18n="@@p.personNameError">
+        Please enter a name (2-100 characters).
+      </div>
+    </div>
+
+    <button type="submit"
+            class="btn btn-success"
+            [disabled]="personForm.invalid">
+      <i class="bi-check-lg"></i>
+      <span class="visually-hidden" i18n="@@p.save">Save</span>
+    </button>
+
+    <button type="button"
+            class="btn btn-outline-danger"
+            (click)="onCancel()">
+      <i class="bi-x-lg"></i>
+      <span class="visually-hidden" i18n="@@p.cancel">Cancel</span>
+    </button>
+  </div>
+</form>
