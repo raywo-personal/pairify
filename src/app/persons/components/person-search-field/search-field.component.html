@@ -1,0 +1,19 @@
+<label for="searchInput"
+       class="visually-hidden"
+       i18n="Search for a person@@t.personSearchLabel">
+  Search for a person
+</label>
+<div class="input-group input-group-sm">
+  <span class="input-group-text"><i class="bi bi-search"></i></span>
+  <input type="search"
+         class="form-control"
+         id="searchInput"
+         name="search"
+         [(ngModel)]="searchTerm"
+         [ngbTypeahead]="search"
+         (focus)="onFocus($event)"
+         (click)="onClick($event)"
+         placeholder="Search for a person"
+         i18n-placeholder="Search for a person@@t.personSearchLabel"
+         #instance="ngbTypeahead">
+</div>

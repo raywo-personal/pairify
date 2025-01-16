@@ -1,0 +1,23 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+
+  background: var(--bs-body-bg);
+
+  padding-top: 0.5rem;
+
+  height: var(--t-tool-bar-height);
+
+  &-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    height: fit-content;
+  }
+}

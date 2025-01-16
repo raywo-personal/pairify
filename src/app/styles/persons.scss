@@ -1,0 +1,16 @@
+.person {
+  &-view {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    &-name {
+      font-weight: 500;
+    }
+
+    &-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+}

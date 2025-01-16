@@ -1,0 +1,60 @@
+<div class="toolbar mb-3"
+     role="toolbar"
+     aria-label="Toolbar for working with teams and persons">
+  <div class="toolbar-buttons">
+    <button class="btn btn-primary"
+            (click)="onAdd()">
+      <i class="bi-plus-lg me-2"></i>
+      <span i18n="add person caption|@@p.addPerson">Add person</span>
+    </button>
+
+    <button class="btn btn-outline-primary" (click)="onSortByName()">
+      <ng-container *ngTemplateOutlet="nameSortSymbol"></ng-container>
+      <span i18n="|@@p.sortByName">sort by name</span>
+    </button>
+
+    @if ((personsCount$ | async)! > 0) {
+      <button app-delete-button
+              caption="Clear all persons"
+              i18n-caption="@@p.clear-all-persons"
+              confirmationMessage="Are you sure you want to clear all persons?"
+              i18n-confirmationMessage="@@p.clearAllPersonsConfirmationMessage"
+              [outline]="true"
+              (deleteConfirmed)="onDeleteAll()">
+      </button>
+    }
+  </div>
+
+  <div class="d-flex gap-2">
+    <div class="d-flex align-items-center fit-height gap-2">
+      <small class="" i18n="x of y persons|@@t.xOfYPersons">
+        ({{ (this.filteredPersonsCount$ | async) }} of
+        {{ (this.personsCount$ | async) }} persons)
+      </small>
+      <app-person-search [source]="filterSource$"/>
+    </div>
+  </div>
+</div>
+
+<div class="content-area scrollable-area">
+  <ul class="list-group">
+    @for (person of filteredPersons$ | async; track person.id) {
+      <li class="list-group-item list-group-item-action pointer">
+        <app-person-view [person]="person"/>
+      </li>
+    }
+  </ul>
+</div>
+
+
+<ng-template #nameSortSymbol>
+  <span class="sort-symbol me-2">
+    @if (nameSortOrder === 'asc') {
+      <i class="bi-sort-alpha-down"></i>
+    } @else if (nameSortOrder === 'desc') {
+      <i class="bi-sort-alpha-up"></i>
+    } @else {
+      &nbsp;
+    }
+  </span>
+</ng-template>
