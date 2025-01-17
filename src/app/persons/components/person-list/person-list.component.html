@@ -40,9 +40,9 @@
   @if (personToAdd) {
     <div class="mb-4">
       <app-person-edit
-          [person]="personToAdd"
-          (cancelled)="onAddCancelled()"
-          (saved)="onEditSaved($event)"
+        [person]="personToAdd"
+        (cancelled)="onAddCancelled()"
+        (saved)="onEditSaved($event)"
       />
     </div>
   }
@@ -62,6 +62,11 @@
     }
   </ul>
 </div>
+
+
+@if (isDraggingOver) {
+  <app-import-fullscreen/>
+}
 
 
 <ng-template #nameSortSymbol>

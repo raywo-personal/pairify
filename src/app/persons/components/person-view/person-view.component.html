@@ -9,14 +9,16 @@
     </div>
   }
 
-  <div class="person-view-buttons">
-    <button class="btn btn-outline-primary btn-sm"
-            (click)="onEdit()">
-      <i class="bi-pencil"></i>
-      <span class="visually-hidden" i18n="@@p.edit">Edit</span>
-    </button>
-    <button app-delete-button additionalClasses="btn-sm"
-            [outline]="true"
-            (deleteConfirmed)="onDeleteConfirmed()"></button>
-  </div>
+  @if (showButtons()) {
+    <div class="person-view-buttons">
+      <button class="btn btn-outline-primary btn-sm"
+              (click)="onEdit()">
+        <i class="bi-pencil"></i>
+        <span class="visually-hidden" i18n="@@p.edit">Edit</span>
+      </button>
+      <button app-delete-button additionalClasses="btn-sm"
+              [outline]="true"
+              (deleteConfirmed)="onDeleteConfirmed()"></button>
+    </div>
+  }
 </div>

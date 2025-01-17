@@ -7,6 +7,7 @@ import {SearchFieldComponent} from '../person-search-field/search-field.componen
 import {map} from 'rxjs';
 import {PersonEditComponent} from '../person-edit/person-edit.component';
 import {createPerson, Person} from '../../models/person.model';
+import {ImportFullscreenComponent} from '../../../import/components/import-fullscreen/import-fullscreen.component';
 
 
 @Component({
@@ -17,7 +18,8 @@ import {createPerson, Person} from '../../models/person.model';
     DeleteButtonComponent,
     NgTemplateOutlet,
     SearchFieldComponent,
-    PersonEditComponent
+    PersonEditComponent,
+    ImportFullscreenComponent
   ],
   templateUrl: './person-list.component.html',
   styleUrl: './person-list.component.scss'
@@ -36,6 +38,7 @@ export class PersonListComponent {
   protected personToAdd?: Person;
   protected personToEdit?: Person;
 
+  protected isDraggingOver = false;
 
   protected onAdd() {
     this.personToAdd = createPerson("");
@@ -97,4 +100,5 @@ export class PersonListComponent {
   protected onDeleted(person: Person) {
     this.personService.removePerson(person);
   }
+
 }

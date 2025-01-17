@@ -16,6 +16,7 @@ import {PersonEditComponent} from '../person-edit/person-edit.component';
 export class PersonViewComponent {
 
   public person = input.required<Person>();
+  public showButtons = input<boolean>(true);
   public editing = model<boolean>(false);
   public edited = output<Person>();
   public delete = output<Person>();

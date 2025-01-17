@@ -1,0 +1,47 @@
+<div class="import"
+     [class.error]="dropError"
+     [class.success]="showPreview"
+     (dragover)="onDragOver($event)"
+     (dragleave)="onDragLeave()"
+     (drop)="onDrop($event)">
+  <div class="import-overlay"
+       [class.fade]="!visible"
+       [class.show]="visible"></div>
+
+  <div class="import-hint"
+       [class.fade]="!visible"
+       [class.show]="visible">
+
+    @if (dropError) {
+      <app-import-drop-error [dropError]="dropError"/>
+    } @else {
+      @if (showPreview) {
+        <app-import-preview [persons$]="contentToImport$"
+                            (importCancelled)="onImportCancelled()"
+                            (importConfirmed)="onImportConfirmed()"/>
+      } @else {
+        <div class="import-hint-content">
+          <h1 class="import-hint-title">Drop to import your file…</h1>
+          <p class="text-muted import-hint-text">
+            You can use JSON and txt files.
+          </p>
+          <p class="text-muted import-hint-text">
+            In a txt file every name needs to be on a separate line.
+            In JSON files you need to use the following format:
+          </p>
+          <div class="d-flex justify-content-center">
+        <pre class="text-muted">
+[
+  &#123;
+    "id": "some UUID", // This is optional.
+    "name": "Name 1"
+  &#125;,
+  ...
+]
+        </pre>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
