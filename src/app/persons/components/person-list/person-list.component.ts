@@ -1,13 +1,15 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnDestroy} from '@angular/core';
 import {PersonService} from '../../services/person.service';
 import {AsyncPipe, NgTemplateOutlet} from '@angular/common';
 import {PersonViewComponent} from '../person-view/person-view.component';
 import {DeleteButtonComponent} from '../../../shared/components/delete-button/delete-button.component';
 import {SearchFieldComponent} from '../person-search-field/search-field.component';
-import {map} from 'rxjs';
+import {map, Subscription} from 'rxjs';
 import {PersonEditComponent} from '../person-edit/person-edit.component';
 import {createPerson, Person} from '../../models/person.model';
 import {ImportFullscreenComponent} from '../../../import/components/import-fullscreen/import-fullscreen.component';
+import {EventBusService} from '../../../shared/event-bus/event-bus.service';
+import {EventType} from '../../../shared/event-bus/event.model';
 
 
 @Component({
@@ -24,9 +26,12 @@ import {ImportFullscreenComponent} from '../../../import/components/import-fulls
   templateUrl: './person-list.component.html',
   styleUrl: './person-list.component.scss'
 })
-export class PersonListComponent {
+export class PersonListComponent implements OnDestroy {
 
   private readonly personService = inject(PersonService);
+  private readonly eventBus = inject(EventBusService);
+
+  private subscriptions: Subscription[] = [];
 
   protected readonly filteredPersons$ = this.personService.filteredPersons$;
   protected readonly personsCount$ = this.personService.personsCount$;
@@ -39,6 +44,27 @@ export class PersonListComponent {
   protected personToEdit?: Person;
 
   protected isDraggingOver = false;
+
+
+  constructor() {
+    this.subscriptions.push(
+      this.eventBus.on(EventType.DRAG_OVER, () => {
+        this.isDraggingOver = true;
+      })
+    );
+
+    this.subscriptions.push(
+      this.eventBus.on(EventType.DRAG_LEAVE, () => {
+        this.isDraggingOver = false;
+      })
+    );
+  }
+
+
+  public ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
 
   protected onAdd() {
     this.personToAdd = createPerson("");
@@ -101,4 +127,13 @@ export class PersonListComponent {
     this.personService.removePerson(person);
   }
 
+
+  protected onImportConfirmed() {
+    this.isDraggingOver = false;
+  }
+
+
+  protected onImportCancelled() {
+    this.isDraggingOver = false;
+  }
 }

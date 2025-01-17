@@ -1,4 +1,6 @@
-<div class="app-layout">
+<div class="app-layout"
+     (dragover)="onDragOver($event)"
+     (dragleave)="onDragLeave()">
   <aside class="sidebar"
          tabindex="-1"
          id="navSidebar"
@@ -14,7 +16,7 @@
 
     <nav class="sidebar-body" app-navigation></nav>
 
-    <footer class="sidebar-footer" >
+    <footer class="sidebar-footer">
       <ng-container i18n="@@t.madeByMessage">Made by raywo with</ng-container>&nbsp;<i class="bi-heart-fill text-danger"></i>&nbsp;|&nbsp;
       <i class="bi-github"></i>&nbsp;
       <a href="https://github.com/raywo-personal/pairify" target="_blank">

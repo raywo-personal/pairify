@@ -65,7 +65,8 @@
 
 
 @if (isDraggingOver) {
-  <app-import-fullscreen/>
+  <app-import-fullscreen (importConfirmed)="onImportConfirmed()"
+                         (importCancelled)="onImportCancelled()"/>
 }
 
 

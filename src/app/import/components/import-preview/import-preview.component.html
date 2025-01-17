@@ -6,7 +6,7 @@
 
   <div class="preview-content">
     <ul class="list-group">
-      @for (person of persons$() | async; track person.id) {
+      @for (person of persons(); track person.id) {
         <li class="list-group-item">
           <app-person-view [person]="person" [showButtons]="false"/>
         </li>

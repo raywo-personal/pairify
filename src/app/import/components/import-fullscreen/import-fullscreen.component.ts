@@ -1,10 +1,10 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, output} from '@angular/core';
 import {ImportPreviewComponent} from '../import-preview/import-preview.component';
 import {DropError} from '../../models/drop-error.type';
 import {ImportDropErrorComponent} from '../import-drop-error/import-drop-error.component';
 import {DataFormatError} from '../../models/data-format-error.model';
-import {Observable, of} from 'rxjs';
 import {ImportService} from '../../services/import.service';
+import {Person} from '../../../persons/models/person.model';
 
 
 @Component({
@@ -23,26 +23,40 @@ export class ImportFullscreenComponent {
   protected readonly allowedFileTypes = ["application/json", "text/plain"];
   protected file: File | null = null;
   protected fileType: "json" | "txt" | null = null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected contentToImport$: Observable<any[]> = of([]);
+  protected contentToImport: Person[] = [];
 
   protected visible = false
   protected showPreview = false;
   protected dropError: DropError = null;
 
+  public importConfirmed = output();
+  public importCancelled = output();
+
 
   protected onImportCancelled() {
     this.reset();
+    this.importCancelled.emit();
   }
 
 
   protected onImportConfirmed() {
+    this.importService.importPersons(this.contentToImport);
+    this.importConfirmed.emit();
+  }
 
+
+  protected onBackDropClick() {
+    this.reset();
+    this.importCancelled.emit();
   }
 
 
   protected onDragOver(dragEvent: DragEvent) {
     dragEvent.preventDefault();
+
+    if (this.showPreview) {
+      this.showPreview = false;
+    }
 
     const dataTransfer = dragEvent.dataTransfer;
 
@@ -112,7 +126,7 @@ export class ImportFullscreenComponent {
     }
 
     if (this.fileType === "txt") {
-      this.contentToImport$ = of(this.importService.personsToImportFromTxt(data as string));
+      this.contentToImport = this.importService.personsToImportFromTxt(data as string);
       this.showPreview = true;
       return;
     }
@@ -120,7 +134,7 @@ export class ImportFullscreenComponent {
     if (this.fileType === "json") {
       try {
         const json = JSON.parse(data as string);
-        this.contentToImport$ = of(this.importService.contentToImportFromJson(json));
+        this.contentToImport = this.importService.contentToImportFromJson(json);
         this.showPreview = true
       } catch (e) {
         if (e instanceof DataFormatError) {

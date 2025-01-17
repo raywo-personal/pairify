@@ -6,7 +6,8 @@
      (drop)="onDrop($event)">
   <div class="import-overlay"
        [class.fade]="!visible"
-       [class.show]="visible"></div>
+       [class.show]="visible"
+       (click)="onBackDropClick()"></div>
 
   <div class="import-hint"
        [class.fade]="!visible"
@@ -16,7 +17,7 @@
       <app-import-drop-error [dropError]="dropError"/>
     } @else {
       @if (showPreview) {
-        <app-import-preview [persons$]="contentToImport$"
+        <app-import-preview [persons]="contentToImport"
                             (importCancelled)="onImportCancelled()"
                             (importConfirmed)="onImportConfirmed()"/>
       } @else {
@@ -32,11 +33,14 @@
           <div class="d-flex justify-content-center">
         <pre class="text-muted">
 [
-  &#123;
-    "id": "some UUID", // This is optional.
-    "name": "Name 1"
-  &#125;,
+  "type": "persons",
+  "data": [
+    &#123;
+      "id": "some UUID", // This is optional.
+      "name": "Name 1"
+    &#125;,
   ...
+  ]
 ]
         </pre>
           </div>

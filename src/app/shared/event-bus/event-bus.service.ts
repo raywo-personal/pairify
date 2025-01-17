@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {filter, map, Subject, Subscription} from 'rxjs';
-import {BusEvent, EventPayload} from './event.model';
+import {BusEvent, EventPayload, EventType} from './event.model';
 
 
 @Injectable({
@@ -17,10 +17,11 @@ export class EventBusService {
   }
 
 
-  public on(event: BusEvent, callback: (payload: EventPayload) => void): Subscription {
+  public on(eventType: EventType,
+            callback: (payload: EventPayload) => void): Subscription {
     return this.subject
       .pipe(
-        filter(e => e.type === event.type),
+        filter(e => e.type === eventType),
         map(e => e.payload)
       )
       .subscribe(payload => callback(payload));

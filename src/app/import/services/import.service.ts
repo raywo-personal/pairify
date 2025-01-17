@@ -1,14 +1,18 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {createPerson, Person} from '../../persons/models/person.model';
 import {DataFormatError} from '../models/data-format-error.model';
 import {validateObject} from '../../shared/helper/validate-object';
 import {dataValidator, ExportImportData} from '../models/export-import.model';
+import {PersonService} from '../../persons/services/person.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImportService {
+
+  private personService = inject(PersonService);
+
 
   public personsToImportFromTxt(data: string): Person[] {
     return data
@@ -29,5 +33,11 @@ export class ImportService {
 
       return person;
     });
+  }
+
+
+  public importPersons(persons: Person[]) {
+    this.personService.deleteAll();
+    persons.forEach(person => this.personService.addPerson(person));
   }
 }
