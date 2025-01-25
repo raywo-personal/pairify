@@ -109,13 +109,14 @@
     <div class="offcanvas-form">
       <div>
         <label for="upload-input"
-                  class="form-label visually-hidden"
-                  i18n="|@@t.chooseFile">
-        Choose a file to upload
-      </label>
+               class="form-label visually-hidden"
+               i18n="|@@t.chooseFile">
+          Choose a file to upload
+        </label>
         <input type="file"
                id="upload-input"
                class="form-control"
+               required
                (change)="onFileChange($event)"
                [accept]="allowedFileTypes"
                #fileInput>
@@ -134,7 +135,8 @@
       <span i18n="@@p.cancelCaption">Cancel</span>
     </button>
     <button class="btn btn-primary"
-            (click)="onImport()">
+            (click)="onImport()"
+            [disabled]="fileInput.files?.length === 0">
       <span i18n="@@p.importCaption">Import</span>
     </button>
   </div>

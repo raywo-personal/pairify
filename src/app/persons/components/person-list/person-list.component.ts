@@ -13,6 +13,7 @@ import {EventType} from '../../../shared/event-bus/event.model';
 import {NgbOffcanvas, NgbOffcanvasOptions} from '@ng-bootstrap/ng-bootstrap';
 import {UploadService} from '../../../import/services/upload.service';
 import {ImportPreviewComponent} from '../../../import/components/import-preview/import-preview.component';
+import {ImportService} from '../../../import/services/import.service';
 
 
 @Component({
@@ -34,8 +35,9 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
   private readonly personService = inject(PersonService);
   private readonly uploadService = inject(UploadService);
+  private readonly importService = inject(ImportService);
   private readonly eventBus = inject(EventBusService);
-  private readonly offcanvas = inject(NgbOffcanvas);
+  private readonly offcanvasService = inject(NgbOffcanvas);
 
   private subscriptions: Subscription[] = [];
 
@@ -58,11 +60,15 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
   @ViewChild("content")
   private content!: TemplateRef<unknown>;
 
+  @ViewChild("fileInput")
+  private fileInput!: HTMLInputElement;
+
 
   constructor() {
     this.subscriptions.push(
       this.eventBus.on(EventType.DRAG_OVER, () => {
         this.isDraggingOver = true;
+        this.offcanvasService.dismiss("cancelled");
       })
     );
 
@@ -81,9 +87,12 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.push(
       this.eventBus.on(EventType.JSON_FILE_UPLOADED, (persons) => {
         this.contentToImport = persons as Person[];
-        console.log(
-          "JSON_FILE_UPLOADED",
-          this.contentToImport)
+      })
+    );
+
+    this.subscriptions.push(
+      this.eventBus.on(EventType.RESET_UPLOADED_FILE, () => {
+        this.contentToImport = [];
       })
     );
   }
@@ -184,12 +193,15 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
 
   protected onCancel() {
-    this.offcanvas.dismiss("cancelled");
+    this.offcanvasService.dismiss("cancelled");
+    this.fileInput.value = "";
+    this.uploadService.reset();
   }
 
 
   protected onImport() {
-
+    this.importService.importPersons(this.uploadService.contentToImport);
+    this.offcanvasService.dismiss("imported");
   }
 
 
@@ -197,9 +209,17 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
     const options: NgbOffcanvasOptions = {
       ariaLabelledBy: this.offcanvasTitle,
       position: "end",
-      backdropClass: "offcanvas-backdrop"
+      backdropClass: "offcanvas-backdrop",
+      container: "div.app-layout",
     };
 
-    this.offcanvas.open(content, options);
+    this.offcanvasService.open(content, options)
+      .result
+      .catch(
+        () => {
+          this.fileInput.value = "";
+          this.uploadService.reset();
+        }
+      );
   }
 }

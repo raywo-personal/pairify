@@ -25,6 +25,14 @@ export class UploadService {
   }
 
 
+  public reset() {
+    this.file = null;
+    this.fileType = null;
+    this._contentToImport = [];
+    this.eventBus.emit(createBusEvent(EventType.RESET_UPLOADED_FILE));
+  }
+
+
   public handleFile(file: File) {
     if (file.type && !this.allowedFileTypes().includes(file.type)) {
       this.eventBus.emit(createBusEvent(EventType.DROP_ERROR, "unsupported"))
