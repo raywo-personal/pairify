@@ -1,0 +1,38 @@
+@switch (importError()) {
+  @case ("unsupported") {
+    <div class="upload-error">
+      <h3><i class="bi-exclamation-triangle-fill"></i>&nbsp;Error</h3>
+      <p class="upload-error" i18n="|@@p.dropFileError">
+        <strong class="">Unsupported operation</strong><br>
+        Only a single JSON or txt file is supported.
+      </p>
+    </div>
+  }
+  @case ("empty") {
+    <div class="upload-error">
+      <h3><i class="bi-exclamation-triangle-fill"></i>&nbsp;Error</h3>
+      <p i18n="Used when an empty file is selected for import.|@@p.emptyFileError">
+        <strong>Empty file</strong><br>
+        The file is empty. Please check the file and try again.
+      </p>
+    </div>
+  }
+  @case ("invalidJSON") {
+    <div class="upload-error">
+      <h3><i class="bi-exclamation-triangle-fill"></i>&nbsp;Error</h3>
+      <p i18n="|@@p.invalidJSONError">
+        <strong>Invalid JSON file</strong><br>
+        Please check the file and try again.
+      </p>
+    </div>
+  }
+  @case ("invalidFormat") {
+    <div class="upload-error">
+      <h3><i class="bi-exclamation-triangle-fill"></i>&nbsp;Error</h3>
+      <p i18n="|@@p.invalidFormatError">
+        <strong>Wrong format</strong><br>
+        Please check the file and try again.
+      </p>
+    </div>
+  }
+}

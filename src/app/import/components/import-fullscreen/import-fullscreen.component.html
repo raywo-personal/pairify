@@ -1,0 +1,28 @@
+<div class="import"
+     [class.error]="dropError"
+     [class.success]="showPreview"
+     (dragover)="onDragOver($event)"
+     (dragleave)="onDragLeave()"
+     (drop)="onDrop($event)">
+  <div class="import-overlay"
+       [class.fade]="!visible"
+       [class.show]="visible"
+       (click)="onBackDropClick()"></div>
+
+  <div class="import-hint"
+       [class.fade]="!visible"
+       [class.show]="visible">
+
+    @if (dropError) {
+      <app-import-drop-error [importError]="dropError"/>
+    } @else {
+      @if (showPreview) {
+        <app-import-preview [persons]="contentToImport"
+                            (importCancelled)="onImportCancelled()"
+                            (importConfirmed)="onImportConfirmed()"/>
+      } @else {
+        <app-import-hint/>
+      }
+    }
+  </div>
+</div>

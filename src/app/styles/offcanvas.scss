@@ -1,0 +1,50 @@
+.offcanvas {
+  --offcanvas-offset-y: 2rem;
+
+  min-width: 75ch;
+}
+
+.offcanvas.offcanvas-end {
+  --offcanvas-inner-border-offset: calc(var(--bs-offcanvas-border-width) * -1 + var(--bs-offcanvas-border-width));
+  --offcanvas-inner-border-radius: calc(var(--bs-border-radius) - calc(var(--bs-offcanvas-border-width) / 2));
+
+  top: var(--offcanvas-offset-y);
+  bottom: var(--offcanvas-offset-y);
+
+  border: var(--bs-offcanvas-border-width) solid var(--bs-offcanvas-border-color);
+  border-right: none;
+  border-top-left-radius: var(--bs-border-radius);
+  border-bottom-left-radius: var(--bs-border-radius);
+
+  .offcanvas-header {
+    border-top-left-radius: var(--offcanvas-inner-border-radius);
+    border-top: var(--bs-border-width) solid var(--bs-gray-500);
+    border-left: var(--bs-border-width) solid var(--bs-gray-500);
+  }
+
+  .offcanvas-body {
+    border-bottom-left-radius: var(--offcanvas-inner-border-radius);
+    border-left: var(--bs-border-width) solid var(--bs-gray-500);
+    border-bottom: var(--bs-border-width) solid var(--bs-gray-500);
+    //overflow-y: unset;
+  }
+}
+
+.offcanvas-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.offcanvas-header,
+.offcanvas-body {
+  background: var(--bs-body-bg);
+}
+
+.offcanvas-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 0.75rem var(--bs-offcanvas-padding-x);
+}

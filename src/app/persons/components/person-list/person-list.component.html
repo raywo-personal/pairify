@@ -2,27 +2,35 @@
      role="toolbar"
      aria-label="Toolbar for working with teams and persons">
   <div class="toolbar-buttons">
-    <button class="btn btn-primary"
-            (click)="onAdd()">
-      <i class="bi-plus-lg me-2"></i>
-      <span i18n="add person caption|@@p.addPerson">Add person</span>
-    </button>
+    <div class="btn-group">
+      <button class="btn btn-primary"
+              (click)="onAdd()">
+        <i class="bi-plus-lg me-2"></i>
+        <span i18n="add person caption|@@p.addPerson">Add person</span>
+      </button>
+
+      <button class="btn btn-outline-primary"
+              (click)="onImportClick(content)">
+        <i class="bi-upload me-2"></i>
+        <span i18n="import persons caption|@@p.importPersonsCaption">Import persons</span>
+      </button>
+
+      @if ((personsCount$ | async)! > 0) {
+        <button app-delete-button
+                caption="Clear all persons"
+                i18n-caption="@@p.clear-all-persons"
+                confirmationMessage="Are you sure you want to clear all persons?"
+                i18n-confirmationMessage="@@p.clearAllPersonsConfirmationMessage"
+                [outline]="true"
+                (deleteConfirmed)="onDeleteAll()">
+        </button>
+      }
+    </div>
 
     <button class="btn btn-outline-primary" (click)="onSortByName()">
       <ng-container *ngTemplateOutlet="nameSortSymbol"></ng-container>
       <span i18n="|@@p.sortByName">sort by name</span>
     </button>
-
-    @if ((personsCount$ | async)! > 0) {
-      <button app-delete-button
-              caption="Clear all persons"
-              i18n-caption="@@p.clear-all-persons"
-              confirmationMessage="Are you sure you want to clear all persons?"
-              i18n-confirmationMessage="@@p.clearAllPersonsConfirmationMessage"
-              [outline]="true"
-              (deleteConfirmed)="onDeleteAll()">
-      </button>
-    }
   </div>
 
   <div class="d-flex gap-2">
@@ -36,13 +44,13 @@
   </div>
 </div>
 
-<div class="content-area scrollable-area">
+<div class="persons content-area scrollable-area">
   @if (personToAdd) {
     <div class="mb-4">
       <app-person-edit
-          [person]="personToAdd"
-          (cancelled)="onAddCancelled()"
-          (saved)="onEditSaved($event)"
+        [person]="personToAdd"
+        (cancelled)="onAddCancelled()"
+        (saved)="onEditSaved($event)"
       />
     </div>
   }
@@ -64,6 +72,13 @@
 </div>
 
 
+@if (isDraggingOver) {
+  <app-import-fullscreen [allowedFileTypes]="allowedFileTypes"
+                         (importConfirmed)="onImportConfirmed()"
+                         (importCancelled)="onImportCancelled()"/>
+}
+
+
 <ng-template #nameSortSymbol>
   <span class="sort-symbol me-2">
     @if (nameSortOrder === 'asc') {
@@ -74,4 +89,62 @@
       &nbsp;
     }
   </span>
+</ng-template>
+
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title" id="offcanvas-basic-title">
+      {{ offcanvasTitle }}
+    </h3>
+    <button type="button"
+            tabindex="-1"
+            class="btn-close"
+            aria-label="Close"
+            i18n-aria-label="Close|@@t.close"
+            (click)="offcanvas.dismiss('Cross click')">
+    </button>
+  </div>
+
+  <div class="offcanvas-body">
+    <div class="offcanvas-form">
+      <div>
+        <label for="upload-input"
+               class="form-label visually-hidden"
+               i18n="|@@t.chooseFile">
+          Choose a file to upload
+        </label>
+        <input type="file"
+               id="upload-input"
+               class="form-control"
+               required
+               (change)="onFileChange($event)"
+               [accept]="allowedFileTypes"
+               #fileInput>
+      </div>
+
+      @if (fileImportError) {
+        <app-import-drop-error [importError]="fileImportError"/>
+      }
+
+      @if (isImportable) {
+        <app-import-preview [persons]="contentToImport"
+                            [showButtons]="false"/>
+      } @else {
+        <app-import-hint/>
+      }
+
+    </div>
+  </div>
+
+  <div class="offcanvas-footer">
+    <button class="btn btn-outline-primary"
+            (click)="onCancel()">
+      <span i18n="@@p.cancelCaption">Cancel</span>
+    </button>
+    <button class="btn btn-primary"
+            (click)="onImport()"
+            [disabled]="!isImportable">
+      <span i18n="@@p.importCaption">Import</span>
+    </button>
+  </div>
 </ng-template>

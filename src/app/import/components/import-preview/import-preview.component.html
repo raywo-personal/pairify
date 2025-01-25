@@ -1,0 +1,33 @@
+<div class="preview">
+  <div class="preview-header">
+    <h3 class="preview-title" i18n="@@p.previewTitle">Preview</h3>
+    <p i18n="@@p.previewPreText">These persons will be imported:</p>
+  </div>
+
+  <div class="preview-content scrollable-area">
+    <ul class="list-group">
+      @for (person of persons(); track person.id) {
+        <li class="list-group-item">
+          <app-person-view [person]="person" [showButtons]="false"/>
+        </li>
+      } @empty {
+        <p class="text-muted" i18n="@@p.previewNoPersons">
+          No persons to import. Select a file to import.
+        </p>
+      }
+    </ul>
+  </div>
+
+  @if (showButtons()) {
+    <div class="preview-footer">
+      <button class="btn btn-outline-primary"
+              (click)="onCancel()">
+        <span i18n="@@p.cancelCaption">Cancel</span>
+      </button>
+      <button class="btn btn-primary"
+              (click)="onImport()">
+        <span i18n="@@p.importCaption">Import</span>
+      </button>
+    </div>
+  }
+</div>

@@ -10,6 +10,8 @@
 @use "app/styles/start";
 @use "app/styles/persons";
 @use "app/styles/toolbar";
+@use "app/styles/importing";
+@use "app/styles/offcanvas";
 
 
 small, .small {
@@ -18,19 +20,19 @@ small, .small {
 
 
 .app-layout {
-  --t-sidebar-width: 28ch;
-  --t-top-bar-height: 3.25rem;
-  --t-main-margin: 0.5rem;
-  --t-tool-bar-height: 4rem;
-  --t-main-height: calc(100vh - 2 * var(--t-main-margin));
-  --t-list-height: calc(var(--t-main-height) - var(--t-top-bar-height) - var(--t-tool-bar-height) - 3rem);
-  --t-preview-height: 17rem;
+  --p-sidebar-width: 28ch;
+  --p-top-bar-height: 3.25rem;
+  --p-main-margin: 0.5rem;
+  --p-tool-bar-height: 4rem;
+  --p-main-height: calc(100vh - 2 * var(--p-main-margin));
+  --p-list-height: calc(var(--p-main-height) - var(--p-top-bar-height) - var(--p-tool-bar-height) - 3rem);
+  --p-preview-height: 17rem;
 
   display: grid;
   grid-template-areas:
     "sidebar main";
-  grid-template-columns: var(--t-sidebar-width) 1fr;
-  grid-template-rows: var(--t-top-bar-height) 1fr;
+  grid-template-columns: var(--p-sidebar-width) 1fr;
+  grid-template-rows: var(--p-top-bar-height) 1fr;
 
   height: 100vh;
   background: var(--bs-tertiary-bg);
@@ -44,10 +46,10 @@ small, .small {
 .main {
   grid-area: main;
 
-  margin: var(--t-main-margin);
+  margin: var(--p-main-margin);
   margin-left: 0;
   padding: 1rem 2rem;
-  height: var(--t-main-height);
+  height: var(--p-main-height);
 
   border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: 0.75rem;
@@ -62,7 +64,7 @@ small, .small {
 
   display: flex;
 
-  height: var(--t-top-bar-height);
+  height: var(--p-top-bar-height);
 
   background: var(--bs-body-bg);
 
@@ -73,11 +75,11 @@ small, .small {
 }
 
 .settings {
-  --t-list-height: calc(var(--t-main-height) - var(--t-top-bar-height) - 3rem);
+  --p-list-height: calc(var(--p-main-height) - var(--p-top-bar-height) - 3rem);
 }
 
 .content-area {
-  height: var(--t-list-height);
+  height: var(--p-list-height);
   overflow: hidden;
   padding-inline-end: 0.1rem;
 }
@@ -126,7 +128,7 @@ small, .small {
 
 @media screen and (max-width: 1350px) {
   .persons {
-    --t-tool-bar-height: 6rem;
+    --p-tool-bar-height: 6rem;
 
     .toolbar {
       margin-bottom: 1rem;
@@ -136,7 +138,7 @@ small, .small {
 
 @media screen and (max-width: 1200px) {
   .app-layout {
-    --t-sidebar-width: 8ch;
+    --p-sidebar-width: 8ch;
   }
 
   .sidebar {
@@ -152,7 +154,3 @@ small, .small {
   }
 }
 
-
-.btn {
-  height: fit-content;
-}
