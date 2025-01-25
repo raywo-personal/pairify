@@ -1,5 +1,5 @@
 import {Component, input} from '@angular/core';
-import {DropError} from '../../models/drop-error.type';
+import {ImportError} from '../../models/import-error.type';
 
 
 @Component({
@@ -10,6 +10,6 @@ import {DropError} from '../../models/drop-error.type';
 })
 export class ImportDropErrorComponent {
 
-  public dropError = input.required<DropError>();
+  public importError = input.required<ImportError>();
 
 }

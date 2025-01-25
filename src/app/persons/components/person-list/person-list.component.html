@@ -122,10 +122,17 @@
                #fileInput>
       </div>
 
-      <div class=" ">
+      @if (fileImportError) {
+        <app-import-drop-error [importError]="fileImportError"/>
+      }
+
+      @if (isImportable) {
         <app-import-preview [persons]="contentToImport"
                             [showButtons]="false"/>
-      </div>
+      } @else {
+        <app-import-hint/>
+      }
+
     </div>
   </div>
 
@@ -136,7 +143,7 @@
     </button>
     <button class="btn btn-primary"
             (click)="onImport()"
-            [disabled]="fileInput.files?.length === 0">
+            [disabled]="!isImportable">
       <span i18n="@@p.importCaption">Import</span>
     </button>
   </div>

@@ -54,6 +54,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
+      color: var(--bs-secondary-color);
     }
 
     &-title {
@@ -108,9 +110,6 @@
     opacity: 1;
   }
 
-  .upload-error {
-    color: var(--bs-form-invalid-color);
-  }
 }
 
 
@@ -142,6 +141,10 @@
   }
 }
 
+.upload-error {
+  color: var(--bs-form-invalid-color);
+}
+
 
 .offcanvas-body {
   .preview {
@@ -154,5 +157,26 @@
 
   .preview-content {
     width: 100%;
+  }
+
+  .import-hint-title {
+    display: none;
+  }
+
+  .import-hint-text {
+    width: 100%;
+  }
+
+  .import-hint-content {
+    justify-content: unset;
+    align-items: unset;
+
+    margin-block-start: 1.375rem;
+
+    color: unset;
+  }
+
+  .upload-error {
+    margin-block-start: 1.375rem;
   }
 }

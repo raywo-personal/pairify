@@ -1,6 +1,6 @@
 import {Component, inject, input, OnDestroy, output} from '@angular/core';
 import {ImportPreviewComponent} from '../import-preview/import-preview.component';
-import {DropError} from '../../models/drop-error.type';
+import {ImportError} from '../../models/import-error.type';
 import {ImportDropErrorComponent} from '../import-drop-error/import-drop-error.component';
 import {ImportService} from '../../services/import.service';
 import {EventBusService} from '../../../shared/event-bus/event-bus.service';
@@ -8,13 +8,15 @@ import {EventType} from '../../../shared/event-bus/event.model';
 import {Subscription} from 'rxjs';
 import {UploadService} from '../../services/upload.service';
 import {Person} from '../../../persons/models/person.model';
+import {ImportHintComponent} from '../import-hint/import-hint.component';
 
 
 @Component({
   selector: 'app-import-fullscreen',
   imports: [
     ImportPreviewComponent,
-    ImportDropErrorComponent
+    ImportDropErrorComponent,
+    ImportHintComponent
   ],
   templateUrl: './import-fullscreen.component.html',
   styleUrl: './import-fullscreen.component.scss'
@@ -30,7 +32,7 @@ export class ImportFullscreenComponent implements OnDestroy {
   protected contentToImport: Person[] = [];
   protected visible = false
   protected showPreview = false;
-  protected dropError: DropError = null;
+  protected dropError: ImportError = null;
 
   public allowedFileTypes = input.required<string[]>()
   public importConfirmed = output();
@@ -40,7 +42,7 @@ export class ImportFullscreenComponent implements OnDestroy {
   constructor() {
     this.subscriptions.push(
       this.eventBus.on(EventType.DROP_ERROR, (errorType) => {
-        this.dropError = errorType as DropError;
+        this.dropError = errorType as ImportError;
       })
     );
 
@@ -127,7 +129,7 @@ export class ImportFullscreenComponent implements OnDestroy {
   }
 
 
-  private onDropError(error: DropError) {
+  private onDropError(error: ImportError) {
     this.dropError = error;
     setTimeout(() => this.reset(), 3000);
   }

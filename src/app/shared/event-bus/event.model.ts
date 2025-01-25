@@ -1,5 +1,5 @@
 import {Person} from '../../persons/models/person.model';
-import {DropError} from '../../import/models/drop-error.type';
+import {ImportError} from '../../import/models/import-error.type';
 
 
 export enum EventType {
@@ -8,7 +8,7 @@ export enum EventType {
   TXT_FILE_UPLOADED, JSON_FILE_UPLOADED, RESET_UPLOADED_FILE
 }
 
-export type EventPayload = Person | DragEvent | DropError | Person[] | void;
+export type EventPayload = Person | DragEvent | ImportError | Person[] | void;
 
 export interface BusEvent {
   type: EventType;

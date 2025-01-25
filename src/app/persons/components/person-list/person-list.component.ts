@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
+import {Component, inject, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
 import {PersonService} from '../../services/person.service';
 import {AsyncPipe, NgTemplateOutlet} from '@angular/common';
 import {PersonViewComponent} from '../person-view/person-view.component';
@@ -14,6 +14,9 @@ import {NgbOffcanvas, NgbOffcanvasOptions} from '@ng-bootstrap/ng-bootstrap';
 import {UploadService} from '../../../import/services/upload.service';
 import {ImportPreviewComponent} from '../../../import/components/import-preview/import-preview.component';
 import {ImportService} from '../../../import/services/import.service';
+import {ImportHintComponent} from '../../../import/components/import-hint/import-hint.component';
+import {ImportError} from '../../../import/models/import-error.type';
+import {ImportDropErrorComponent} from '../../../import/components/import-drop-error/import-drop-error.component';
 
 
 @Component({
@@ -26,12 +29,14 @@ import {ImportService} from '../../../import/services/import.service';
     SearchFieldComponent,
     PersonEditComponent,
     ImportFullscreenComponent,
-    ImportPreviewComponent
+    ImportPreviewComponent,
+    ImportHintComponent,
+    ImportDropErrorComponent
   ],
   templateUrl: './person-list.component.html',
   styleUrl: './person-list.component.scss'
 })
-export class PersonListComponent implements AfterViewInit, OnDestroy {
+export class PersonListComponent implements OnDestroy {
 
   private readonly personService = inject(PersonService);
   private readonly uploadService = inject(UploadService);
@@ -55,6 +60,7 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
   protected personToEdit?: Person;
 
   protected isDraggingOver = false;
+  protected fileImportError: ImportError = null;
   protected readonly offcanvasTitle = $localize`:@@p.importPersons:Import persons`;
 
   @ViewChild("content")
@@ -68,6 +74,7 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.push(
       this.eventBus.on(EventType.DRAG_OVER, () => {
         this.isDraggingOver = true;
+        this.resetImportState();
         this.offcanvasService.dismiss("cancelled");
       })
     );
@@ -79,33 +86,40 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
     );
 
     this.subscriptions.push(
+      this.eventBus.on(EventType.DROP_ERROR, (errorType) => {
+        this.fileImportError = errorType as ImportError;
+      })
+    );
+
+    this.subscriptions.push(
       this.eventBus.on(EventType.TXT_FILE_UPLOADED, (persons) => {
         this.contentToImport = persons as Person[];
+        this.fileImportError = null;
       })
     );
 
     this.subscriptions.push(
       this.eventBus.on(EventType.JSON_FILE_UPLOADED, (persons) => {
         this.contentToImport = persons as Person[];
+        this.fileImportError = null;
       })
     );
 
     this.subscriptions.push(
       this.eventBus.on(EventType.RESET_UPLOADED_FILE, () => {
-        this.contentToImport = [];
+        this.resetImportState();
       })
     );
   }
 
 
-  // TODO: Remove!
-  public ngAfterViewInit() {
-    this.openOffcanvas(this.content);
+  public ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
 
-  public ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
+  protected get isImportable(): boolean {
+    return this.contentToImport.length > 0;
   }
 
 
@@ -194,8 +208,7 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
   protected onCancel() {
     this.offcanvasService.dismiss("cancelled");
-    this.fileInput.value = "";
-    this.uploadService.reset();
+    this.resetImportState();
   }
 
 
@@ -217,9 +230,16 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
       .result
       .catch(
         () => {
-          this.fileInput.value = "";
-          this.uploadService.reset();
+          this.resetImportState();
         }
       );
+  }
+
+
+  private resetImportState() {
+    this.contentToImport = [];
+    this.fileImportError = null;
+    this.fileInput.value = "";
+    this.uploadService.reset();
   }
 }
