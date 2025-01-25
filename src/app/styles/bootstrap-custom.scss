@@ -5,10 +5,8 @@
   $font-family-sans-serif: vars.$fonts,
 
   // Colors
-  $primary: vars.$primary, // #F96400, #c73e1d; // #53131e; //#09203f;
+  $primary: vars.$primary,
   $secondary: vars.$secondary,
-  //$secondary: #7b8faa,
-  //$secondary: #293f51,
   $light: #dee2e6,
   $nav-link-color: var(--bs-gray-700),
   $body-tertiary-bg: #edf0f2,
@@ -51,6 +49,10 @@
 
 .badge {
   font-weight: 500;
+}
+
+.btn {
+  height: fit-content;
 }
 
 .nav-pills {
