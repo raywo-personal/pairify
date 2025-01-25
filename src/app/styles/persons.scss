@@ -15,3 +15,14 @@
     }
   }
 }
+
+.persons {
+  .list-group-item {
+    border: none;
+    border-top: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+  }
+
+  .list-group-item:last-child {
+    border-bottom: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+  }
+}

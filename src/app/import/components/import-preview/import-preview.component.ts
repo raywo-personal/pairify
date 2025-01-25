@@ -14,6 +14,7 @@ import {PersonViewComponent} from '../../../persons/components/person-view/perso
 export class ImportPreviewComponent {
 
   public persons = input<Person[]>();
+  public showButtons = input<boolean>(true);
   public importCancelled = output();
   public importConfirmed = output();
 

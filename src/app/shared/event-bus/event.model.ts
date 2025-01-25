@@ -1,12 +1,14 @@
 import {Person} from '../../persons/models/person.model';
+import {DropError} from '../../import/models/drop-error.type';
 
 
 export enum EventType {
   PERSON_CREATED, PERSON_DELETED, PERSON_UPDATED, PERSONS_RESET,
-  DRAG_OVER, DRAG_LEAVE
+  DRAG_OVER, DRAG_LEAVE, DROP_ERROR,
+  TXT_FILE_UPLOADED, JSON_FILE_UPLOADED,
 }
 
-export type EventPayload = Person | DragEvent | void;
+export type EventPayload = Person | DragEvent | DropError | Person[] | void;
 
 export interface BusEvent {
   type: EventType;

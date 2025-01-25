@@ -1,9 +1,12 @@
-import {Component, inject, output} from '@angular/core';
+import {Component, inject, input, OnDestroy, output} from '@angular/core';
 import {ImportPreviewComponent} from '../import-preview/import-preview.component';
 import {DropError} from '../../models/drop-error.type';
 import {ImportDropErrorComponent} from '../import-drop-error/import-drop-error.component';
-import {DataFormatError} from '../../models/data-format-error.model';
 import {ImportService} from '../../services/import.service';
+import {EventBusService} from '../../../shared/event-bus/event-bus.service';
+import {EventType} from '../../../shared/event-bus/event.model';
+import {Subscription} from 'rxjs';
+import {UploadService} from '../../services/upload.service';
 import {Person} from '../../../persons/models/person.model';
 
 
@@ -16,21 +19,52 @@ import {Person} from '../../../persons/models/person.model';
   templateUrl: './import-fullscreen.component.html',
   styleUrl: './import-fullscreen.component.scss'
 })
-export class ImportFullscreenComponent {
+export class ImportFullscreenComponent implements OnDestroy {
 
-  private importService = inject(ImportService);
+  private readonly importService = inject(ImportService);
+  private readonly uploadService = inject(UploadService);
+  private readonly eventBus = inject(EventBusService);
 
-  protected readonly allowedFileTypes = ["application/json", "text/plain"];
-  protected file: File | null = null;
-  protected fileType: "json" | "txt" | null = null;
+  private subscriptions: Subscription[] = [];
+
   protected contentToImport: Person[] = [];
-
   protected visible = false
   protected showPreview = false;
   protected dropError: DropError = null;
 
+  public allowedFileTypes = input.required<string[]>()
   public importConfirmed = output();
   public importCancelled = output();
+
+
+  constructor() {
+    this.subscriptions.push(
+      this.eventBus.on(EventType.DROP_ERROR, (errorType) => {
+        this.dropError = errorType as DropError;
+      })
+    );
+
+    this.subscriptions.push(
+      this.eventBus.on(EventType.TXT_FILE_UPLOADED, (persons) => {
+        this.contentToImport = persons as Person[];
+        this.showPreview = true;
+        this.dropError = null;
+      })
+    );
+
+    this.subscriptions.push(
+      this.eventBus.on(EventType.JSON_FILE_UPLOADED, (persons) => {
+        this.contentToImport = persons as Person[];
+        this.showPreview = true;
+        this.dropError = null;
+      })
+    );
+  }
+
+
+  public ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
 
 
   protected onImportCancelled() {
@@ -40,7 +74,7 @@ export class ImportFullscreenComponent {
 
 
   protected onImportConfirmed() {
-    this.importService.importPersons(this.contentToImport);
+    this.importService.importPersons(this.uploadService.contentToImport);
     this.importConfirmed.emit();
   }
 
@@ -89,75 +123,7 @@ export class ImportFullscreenComponent {
       return;
     }
 
-    this.handleFile(files[0])
-  }
-
-
-  private handleFile(file: File) {
-    if (file.type && !this.allowedFileTypes.includes(file.type)) {
-      this.onDropError("unsupported");
-      return;
-    }
-
-    this.setFileTypeFromFile(file);
-    this.file = file;
-
-    const reader = this.getFileReader();
-    reader.readAsText(this.file);
-  }
-
-
-  private getFileReader(): FileReader {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const data = reader.result;
-      this.handleReadData(data as string | undefined);
-    };
-
-    return reader;
-  }
-
-
-  private handleReadData(data: string | undefined) {
-    if (!data) {
-      this.onDropError("empty");
-      return;
-    }
-
-    if (this.fileType === "txt") {
-      this.contentToImport = this.importService.personsToImportFromTxt(data as string);
-      this.showPreview = true;
-      return;
-    }
-
-    if (this.fileType === "json") {
-      try {
-        const json = JSON.parse(data as string);
-        this.contentToImport = this.importService.contentToImportFromJson(json);
-        this.showPreview = true
-      } catch (e) {
-        if (e instanceof DataFormatError) {
-          this.onDropError("invalidFormat");
-        } else {
-          this.onDropError("invalidJSON");
-        }
-      }
-    }
-  }
-
-
-  private setFileTypeFromFile(file: File) {
-    switch (file.type) {
-      case "application/json":
-        this.fileType = "json";
-        break;
-      case "text/plain":
-        this.fileType = "txt";
-        break;
-      default:
-        this.fileType = null;
-    }
+    this.uploadService.handleFile(files[0])
   }
 
 
