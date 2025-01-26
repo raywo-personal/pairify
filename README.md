@@ -1,59 +1,50 @@
 # Pairify
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.1.
+With TeamBuilder, creating pairs or small teams is a breeze! Simply enter
+the names, choose how many teams you need – and you're ready to go!
 
-## Development server
+Want to work with the driver-navigator principle? No problem! Just enable
+the “Driver” mode, and TeamBuilder ensures every team has its own “Driver”.
 
-To start a local development server, run:
+## Usage
 
-```bash
-ng serve
+1. Enter or import the list of people to be distributed into teams.
+2. Set the desired **count of teams**.
+3. Decide whether you want a **driver** assigned per team.
+4. Click the **”Create teams“** button.
+
+The app will randomly organize individuals into evenly distributed teams 
+and assign a driver per team if needed.
+
+## Installation
+
+To run the application locally, follow these steps:
+
+1. **Clone the Repository:**
+
+```shell script
+  git clone <repository-url>
+  cd <repository-folder>
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+2. **Install Dependencies:**
 
-## Code scaffolding
+   Make sure you have the `pnpm` package manager installed. Then, run:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```shell script
+  pnpm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+3. **Run the Development Server:**
 
-```bash
-ng generate --help
+   Start the Angular development server with:
+
+```shell script
+  pnpm start
 ```
 
-## Building
+The app will be available at `http://localhost:4200/`.
 
-To build the project run:
+## License
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3.
