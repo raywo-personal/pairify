@@ -1,0 +1,5 @@
+@if ((personsCount$ | async)! === 0) {
+  <app-claim/>
+} @else {
+  <app-grouping/>
+}

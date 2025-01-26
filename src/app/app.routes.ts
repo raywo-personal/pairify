@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {StartComponent} from './navigation/start/components/start/start.component';
+import {StartComponent} from './start/components/start/start.component';
 import {PersonListComponent} from './persons/components/person-list/person-list.component';
 
 

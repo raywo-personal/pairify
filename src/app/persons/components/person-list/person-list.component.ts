@@ -63,11 +63,8 @@ export class PersonListComponent implements OnDestroy {
   protected fileImportError: ImportError = null;
   protected readonly offcanvasTitle = $localize`:@@p.importPersons:Import persons`;
 
-  @ViewChild("content")
-  private content!: TemplateRef<unknown>;
-
   @ViewChild("fileInput")
-  private fileInput!: HTMLInputElement;
+  private fileInput?: HTMLInputElement;
 
 
   constructor() {
@@ -239,7 +236,11 @@ export class PersonListComponent implements OnDestroy {
   private resetImportState() {
     this.contentToImport = [];
     this.fileImportError = null;
-    this.fileInput.value = "";
+
+    if (this.fileInput) {
+      this.fileInput.value = "";
+    }
+
     this.uploadService.reset();
   }
 }

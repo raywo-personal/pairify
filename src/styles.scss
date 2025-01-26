@@ -12,6 +12,8 @@
 @use "app/styles/toolbar";
 @use "app/styles/importing";
 @use "app/styles/offcanvas";
+@use "app/styles/cards";
+@use "app/styles/teams";
 
 
 small, .small {
@@ -110,6 +112,10 @@ small, .small {
 .badge-list {
   display: flex;
   gap: 1rem;
+}
+
+.fit-width {
+  width: fit-content;
 }
 
 .fit-height {
