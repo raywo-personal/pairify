@@ -3,6 +3,8 @@ import {FormsModule} from '@angular/forms';
 import {GroupingService} from '../../services/grouping.service';
 import {AsyncPipe} from '@angular/common';
 import {TeamViewComponent} from '../team-view/team-view.component';
+import {PersonService} from '../../../persons/services/person.service';
+import {AutofocusDirective} from '../../../shared/directives/autofocus.directive';
 
 
 @Component({
@@ -10,7 +12,8 @@ import {TeamViewComponent} from '../team-view/team-view.component';
   imports: [
     FormsModule,
     AsyncPipe,
-    TeamViewComponent
+    TeamViewComponent,
+    AutofocusDirective
   ],
   templateUrl: './grouping.component.html',
   styleUrl: './grouping.component.scss'
@@ -18,11 +21,13 @@ import {TeamViewComponent} from '../team-view/team-view.component';
 export class GroupingComponent {
 
   private groupingService = inject(GroupingService);
+  private personService = inject(PersonService);
 
-  protected groupCount = 1;
-  protected useDriver = true;
+  protected groupCount = this.groupingService.teamsCount;
+  protected useDriver = this.groupingService.useDriver;
 
   protected teams$ = this.groupingService.teams$;
+  protected personsCount$ = this.personService.personsCount$;
 
 
   protected onSubmit() {
@@ -30,4 +35,9 @@ export class GroupingComponent {
     this.groupingService.useDriver = this.useDriver;
   }
 
+
+  protected onReset() {
+    this.groupingService.resetTeams();
+    this.groupCount = this.groupingService.teamsCount;
+  }
 }

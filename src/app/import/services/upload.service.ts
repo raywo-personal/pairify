@@ -25,11 +25,14 @@ export class UploadService {
   }
 
 
-  public reset() {
+  public reset(emitResetEvent = true) {
     this.file = null;
     this.fileType = null;
     this._contentToImport = [];
-    this.eventBus.emit(createBusEvent(EventType.RESET_UPLOADED_FILE));
+
+    if (emitResetEvent) {
+      this.eventBus.emit(createBusEvent(EventType.RESET_UPLOADED_FILE));
+    }
   }
 
 

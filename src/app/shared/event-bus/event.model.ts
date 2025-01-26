@@ -4,6 +4,7 @@ import {ImportError} from '../../import/models/import-error.type';
 
 export enum EventType {
   PERSON_CREATED, PERSON_DELETED, PERSON_UPDATED, PERSONS_RESET,
+  TEAMS_CREATED, TEAMS_RESET,
   DRAG_OVER, DRAG_LEAVE, DROP_ERROR,
   TXT_FILE_UPLOADED, JSON_FILE_UPLOADED, RESET_UPLOADED_FILE
 }
