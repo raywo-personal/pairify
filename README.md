@@ -6,6 +6,9 @@ the names, choose how many teams you need – and you're ready to go!
 Want to work with the driver-navigator principle? No problem! Just enable
 the “Driver” mode, and TeamBuilder ensures every team has its own “Driver”.
 
+Start [using the app immediately](https://raywo-personal.github.io/pairify/start) 
+without the need to installing it.
+
 ## Usage
 
 1. Enter or import the list of people to be distributed into teams.
