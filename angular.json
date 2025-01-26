@@ -53,6 +53,22 @@
               ],
               "outputHashing": "all"
             },
+            "gh-pages": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all",
+              "localize": false
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -105,6 +121,13 @@
               "src/**/*.ts",
               "src/**/*.html"
             ]
+          }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "https://raywo-personal.github.io/pairify/",
+            "buildTarget": "pairify:build:gh-pages"
           }
         }
       }
