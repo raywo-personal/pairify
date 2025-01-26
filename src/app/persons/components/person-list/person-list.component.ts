@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
 import {PersonService} from '../../services/person.service';
 import {AsyncPipe, NgTemplateOutlet} from '@angular/common';
 import {PersonViewComponent} from '../person-view/person-view.component';
@@ -17,6 +17,7 @@ import {ImportService} from '../../../import/services/import.service';
 import {ImportHintComponent} from '../../../import/components/import-hint/import-hint.component';
 import {ImportError} from '../../../import/models/import-error.type';
 import {ImportDropErrorComponent} from '../../../import/components/import-drop-error/import-drop-error.component';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -36,13 +37,14 @@ import {ImportDropErrorComponent} from '../../../import/components/import-drop-e
   templateUrl: './person-list.component.html',
   styleUrl: './person-list.component.scss'
 })
-export class PersonListComponent implements OnDestroy {
+export class PersonListComponent implements AfterViewInit, OnDestroy {
 
   private readonly personService = inject(PersonService);
   private readonly uploadService = inject(UploadService);
   private readonly importService = inject(ImportService);
   private readonly eventBus = inject(EventBusService);
   private readonly offcanvasService = inject(NgbOffcanvas);
+  private route = inject(ActivatedRoute);
 
   private subscriptions: Subscription[] = [];
 
@@ -63,11 +65,8 @@ export class PersonListComponent implements OnDestroy {
   protected fileImportError: ImportError = null;
   protected readonly offcanvasTitle = $localize`:@@p.importPersons:Import persons`;
 
-  @ViewChild("content")
-  private content!: TemplateRef<unknown>;
-
   @ViewChild("fileInput")
-  private fileInput!: HTMLInputElement;
+  private fileInput?: HTMLInputElement;
 
 
   constructor() {
@@ -107,9 +106,16 @@ export class PersonListComponent implements OnDestroy {
 
     this.subscriptions.push(
       this.eventBus.on(EventType.RESET_UPLOADED_FILE, () => {
-        this.resetImportState();
+        this.resetImportState(false);
       })
     );
+  }
+
+  public ngAfterViewInit() {
+    if (this.route.snapshot.queryParams["new"]) {
+      this.resetPath();
+      this.onAdd();
+    }
   }
 
 
@@ -236,10 +242,20 @@ export class PersonListComponent implements OnDestroy {
   }
 
 
-  private resetImportState() {
+  private resetImportState(emitResetEvent = true) {
     this.contentToImport = [];
     this.fileImportError = null;
-    this.fileInput.value = "";
-    this.uploadService.reset();
+
+    if (this.fileInput) {
+      this.fileInput.value = "";
+    }
+
+    this.uploadService.reset(emitResetEvent);
   }
+
+
+  private resetPath() {
+    window.history.replaceState(null, "", window.location.pathname);
+  }
+
 }

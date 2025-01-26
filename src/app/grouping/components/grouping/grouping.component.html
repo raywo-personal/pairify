@@ -1,0 +1,67 @@
+<form #form="ngForm">
+  <div class="hstack gap-3 ">
+    <div class="hstack gap-3 align-self-end"
+         [class.was-validated]="groupCountField.dirty || groupCountField.touched">
+      <label for="group-count-field"
+             class="form-label"
+             i18n="@@p.groupCountLabel">
+        How many teams do you want to create?
+      </label>
+
+      @let personsCount = (personsCount$ | async) || 0;
+      <div>
+        <input type="number"
+               id="group-count-field"
+               class="form-control w-auto"
+               name="groupCount"
+               required
+               [min]="1"
+               [max]="personsCount"
+               [(ngModel)]="groupCount"
+               #groupCountField="ngModel"
+               appAutofocus>
+        <div class="invalid-feedback" i18n="@@p.groupCountError">
+          Please enter a number between 1 and {{ personsCount }}.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-check form-switch mt-3">
+      <input type="checkbox"
+             class="form-check-input"
+             id="driver-mode-checkbox"
+             name="driverMode"
+             [(ngModel)]="useDriver">
+      <label class="form-check-label"
+             for="driver-mode-checkbox"
+             i18n="@@p.driverModeLabel">
+        Create a driver for every group
+      </label>
+    </div>
+
+    <div class="flex-grow-1"></div>
+
+    <div class="mt-3">
+      <button type="button"
+              class="btn btn-outline-danger me-2"
+              (click)="onReset()">
+        Reset teams
+      </button>
+
+      <button type="submit"
+              class="btn btn-primary"
+              (click)="onSubmit()"
+              i18n="@@p.createTeamsButtonCaption">
+        Create teams
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="content-area scrollable-area">
+  <div class="mt-3 row row-cols-4 g-3">
+    @for (team of teams$ | async; track team.id) {
+      <app-team-view [team]="team"/>
+    }
+  </div>
+</div>

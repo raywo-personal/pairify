@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {StartComponent} from './navigation/start/components/start/start.component';
+import {StartComponent} from './start/components/start/start.component';
 import {PersonListComponent} from './persons/components/person-list/person-list.component';
 
 
@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: "start",
     component: StartComponent,
-    data: {title: $localize`:start menu title@@p.start-menu:Start`, icon: "house-door"},
+    data: {title: $localize`:start menu title@@p.start-menu:Create teams`, icon: "house-door"},
     pathMatch: "full"
   },
   {

@@ -1,0 +1,42 @@
+@use "./variables" as vars;
+@use "sass:color";
+
+.card {
+  --card-inner-border-width: 4px;
+
+  &-body {
+    background: var(--bs-body-bg);
+    border-radius: calc(var(--bs-border-radius) - var(--card-inner-border-width));
+    margin: var(--card-inner-border-width);
+  }
+
+  &-header:first-child {
+    --bs-card-inner-border-radius: var(--bs-border-radius);
+    padding-block-start: 1rem;
+    padding-block-end: 0;
+  }
+
+  &-footer:last-child {
+    --bs-card-inner-border-radius: var(--bs-border-radius);
+  }
+
+  &-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  &-subtitle {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: color.adjust(vars.$secondary, $lightness: -25%);
+  }
+
+  &-text {
+    color: var(--bs-tertiary-color);
+  }
+}
+
+.card.step {
+  --bs-card-height: 100%;
+}

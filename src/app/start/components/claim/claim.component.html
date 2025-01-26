@@ -1,0 +1,31 @@
+<div class="card start">
+  <div class="card-header text-center">
+    <h2 class="card-title">
+      <span i18n="|@@t.appName">Pairify</span>&nbsp;
+      <span class="lead" i18n="Slogan for TeamBuilder|@@p.slogan">Effortless Team Creation</span>
+    </h2>
+  </div>
+
+  <div class="card-body">
+    <div class="text-center">
+      <p class="lead" i18n="What is TeamBuilder|@@p.what-is">
+        With TeamBuilder, creating pairs or small teams is a breeze! Simply enter
+        the names, choose how many teams you need – and you're ready to go!
+      </p>
+
+      <p class="lead" i18n="What is a driver|@@p.what-is-a-driver">
+        Want to work with the driver-navigator principle? No problem! Just enable
+        the “Driver” mode, and TeamBuilder ensures every team has its own “Driver”.
+      </p>
+
+    </div>
+  </div>
+
+  <div class="card-footer text-center">
+    <a class="btn btn-primary"
+       routerLink="/persons"
+       [queryParams]="{new: true}">
+      <span i18n="Start|@@p.start">Start by adding persons</span>
+    </a>
+  </div>
+</div>

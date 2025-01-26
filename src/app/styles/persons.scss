@@ -17,6 +17,10 @@
 }
 
 .persons {
+  .list-group {
+    border-radius: 0;
+  }
+
   .list-group-item {
     border: none;
     border-top: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
