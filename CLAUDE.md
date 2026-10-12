@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Pairify is a client-only Angular 19 app that randomly splits a list of
 persons into evenly sized teams, optionally assigning one "driver" per team
 (driver-navigator pairing). There is no backend; all state lives in
-`localStorage`. Deployed to GitHub Pages at
-https://raywo-personal.github.io/pairify/.
+`localStorage`. Deployed as static assets on a Cloudflare Worker at
+https://pairify.skillbird.de/.
 
 ## Commands
 
@@ -20,12 +20,13 @@ pnpm test                  # Karma + Jasmine in Chrome (watch mode)
 pnpm test --watch=false    # single run
 pnpm test --include src/app/grouping/services/grouping.service.spec.ts
 pnpm lint                  # angular-eslint over src/**/*.ts and *.html
-pnpm ng deploy             # build with gh-pages config and publish to GitHub Pages
 ```
 
-The `gh-pages` build configuration sets the absolute `baseHref` for the
-Pages subpath; asset paths in `public/` (e.g. `site.webmanifest`) must be
-relative so they resolve under `/pairify/`.
+Deployment runs only through the GitHub Actions workflow
+`deploy-to-cloudflare-workers.yml` on every push to `main`; do not deploy
+by hand. `wrangler.jsonc` configures the Worker and its custom domain.
+Keep `not_found_handling: "single-page-application"` – the router uses
+path URLs, and deep links like `/persons` 404 without it.
 
 ## Architecture
 
