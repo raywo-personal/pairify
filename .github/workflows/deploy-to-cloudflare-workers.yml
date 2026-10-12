@@ -1,0 +1,83 @@
+name: Build and deploy to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build the app
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install pnpm and Node.js
+        uses: pnpm/setup@v2
+        # No `runtime`: the action installs the Node.js that
+        # `devEngines.runtime` in package.json declares, so CI and a local
+        # `pnpm install` run the same version.
+        with:
+          cache: true
+          install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build the app
+        run: pnpm run build
+
+      - name: Upload build output
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/pairify/browser
+          if-no-files-found: error
+          retention-days: 1
+
+  deploy:
+    name: Deploy to Cloudflare Workers
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    if: github.event_name != 'pull_request'
+
+    steps:
+      # wrangler.jsonc and the wrangler version in the lockfile live in the
+      # repository, so the deploy job needs the checkout and the
+      # dependencies, not just the built app.
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install pnpm and Node.js
+        uses: pnpm/setup@v2
+        with:
+          cache: true
+          install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download build output
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/pairify/browser
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.SKILLBIRD_CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.SKILLBIRD_CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
