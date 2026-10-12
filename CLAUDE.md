@@ -88,3 +88,14 @@ persons.
 - Component and directive selectors use the `app` prefix (enforced by lint).
 - Use double quotes in TypeScript (`.editorconfig`), including imports and
   decorators.
+
+## Plugin Bindings
+
+| Step | Binding |
+|------|---------|
+| `implement-issue/dependents` | Persisted data: `localStorage` keys in `PersistenceService` and the JSON import format in `import/models/export-import.model.ts`. A change to `Person`, `Team` or these keys must keep previously stored data and exported files readable. |
+| `review-changes/checks` | Same persisted-data rule as `implement-issue/dependents`; new user-facing strings are marked with `$localize` or `i18n`. |
+| `pr-review/checks` | Same as `review-changes/checks`. |
+| `implement-issue/user-docs` | `README.md`, section "Usage", English, for end users. |
+| `review-changes/user-docs` | Same as `implement-issue/user-docs`. |
+| `pr-review/user-docs` | Same as `implement-issue/user-docs`. |
