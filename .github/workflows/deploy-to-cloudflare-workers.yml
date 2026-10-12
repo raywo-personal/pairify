@@ -8,6 +8,7 @@ on:
     types: [ opened, synchronize, reopened ]
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,13 +20,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install pnpm and Node.js
-        uses: pnpm/setup@v2
-        # No `runtime`: the action installs the Node.js that
-        # `devEngines.runtime` in package.json declares, so CI and a local
-        # `pnpm install` run the same version.
+        uses: pnpm/setup@v3
+        # No `version` or `runtime`: the action reads `packageManager` and
+        # `devEngines.runtime` from package.json, so CI and a local
+        # `pnpm install` run the same versions.
         with:
           cache: true
           install: false
@@ -53,15 +54,19 @@ jobs:
 
     if: github.event_name != 'pull_request'
 
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
+
     steps:
       # wrangler.jsonc and the wrangler version in the lockfile live in the
       # repository, so the deploy job needs the checkout and the
       # dependencies, not just the built app.
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install pnpm and Node.js
-        uses: pnpm/setup@v2
+        uses: pnpm/setup@v3
         with:
           cache: true
           install: false
