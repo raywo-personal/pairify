@@ -86,6 +86,5 @@ persons.
 ## Conventions
 
 - Component and directive selectors use the `app` prefix (enforced by lint).
-- Code style follows the existing files: single quotes in imports and
-  decorators, double quotes are common in string literals – match the file
-  you edit.
+- Use double quotes in TypeScript (`.editorconfig`), including imports and
+  decorators.
