@@ -19,7 +19,10 @@ import {ImportHintComponent} from "../import-hint/import-hint.component";
     ImportHintComponent
   ],
   templateUrl: './import-fullscreen.component.html',
-  styleUrl: './import-fullscreen.component.scss'
+  styleUrl: './import-fullscreen.component.scss',
+  host: {
+    "(document:keydown.escape)": "onDismiss()"
+  }
 })
 export class ImportFullscreenComponent implements OnDestroy {
 
@@ -81,7 +84,7 @@ export class ImportFullscreenComponent implements OnDestroy {
   }
 
 
-  protected onBackDropClick() {
+  protected onDismiss() {
     this.reset();
     this.importCancelled.emit();
   }
