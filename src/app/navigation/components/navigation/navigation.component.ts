@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {NgbNavModule, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {NavItem} from "../../routes/nav-item.model";
@@ -15,7 +15,6 @@ import {routes} from "../../../app.routes";
     NgbTooltip
   ],
   templateUrl: './navigation.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './navigation.component.scss'
 })
 export class NavigationComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from "@angular/core";
+import {Component, inject} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {GroupingService} from "../../services/grouping.service";
 import {AsyncPipe} from "@angular/common";
@@ -16,7 +16,6 @@ import {AutofocusDirective} from "../../../shared/directives/autofocus.directive
     AutofocusDirective
   ],
   templateUrl: './grouping.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './grouping.component.scss'
 })
 export class GroupingComponent {

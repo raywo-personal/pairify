@@ -1,6 +1,6 @@
 <h1>
-  @if (icon) {
+  @if (icon(); as icon) {
     <i class="bi-{{ icon }} pe-3 me-3 border-end"></i>
   }
-  {{ currentTitle }}
+  {{ currentTitle() }}
 </h1>

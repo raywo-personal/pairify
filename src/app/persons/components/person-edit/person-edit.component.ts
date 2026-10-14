@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, effect, input, output} from "@angular/core";
+import {Component, effect, input, output} from "@angular/core";
 import {Person} from "../../models/person.model";
 import {FormsModule} from "@angular/forms";
 import {AutofocusDirective} from "../../../shared/directives/autofocus.directive";
@@ -11,7 +11,6 @@ import {AutofocusDirective} from "../../../shared/directives/autofocus.directive
     AutofocusDirective
   ],
   templateUrl: './person-edit.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './person-edit.component.scss'
 })
 export class PersonEditComponent {

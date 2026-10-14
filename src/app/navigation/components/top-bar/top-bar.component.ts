@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from "@angular/core";
+import {Component, inject, OnInit, signal} from "@angular/core";
 import {NavigationEnd, Router} from "@angular/router";
 import {filter, map} from "rxjs";
 
@@ -8,13 +8,12 @@ import {filter, map} from "rxjs";
   selector: '[app-top-bar]',
   imports: [],
   templateUrl: './top-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './top-bar.component.scss'
 })
 export class TopBarComponent implements OnInit {
 
-  protected currentTitle = "";
-  protected icon?: string;
+  protected readonly currentTitle = signal("");
+  protected readonly icon = signal<string | undefined>(undefined);
 
   private router = inject(Router);
 
@@ -40,8 +39,8 @@ export class TopBarComponent implements OnInit {
         })
       )
       .subscribe(tupel => {
-        this.currentTitle = tupel.title;
-        this.icon = tupel.icon;
+        this.currentTitle.set(tupel.title);
+        this.icon.set(tupel.icon);
       });
   }
 }

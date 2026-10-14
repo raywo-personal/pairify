@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, input, OnDestroy, output} from "@angular/core";
+import {Component, inject, input, OnDestroy, output, signal} from "@angular/core";
 import {ImportPreviewComponent} from "../import-preview/import-preview.component";
 import {ImportError} from "../../models/import-error.type";
 import {ImportDropErrorComponent} from "../import-drop-error/import-drop-error.component";
@@ -19,7 +19,6 @@ import {ImportHintComponent} from "../import-hint/import-hint.component";
     ImportHintComponent
   ],
   templateUrl: './import-fullscreen.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './import-fullscreen.component.scss'
 })
 export class ImportFullscreenComponent implements OnDestroy {
@@ -30,10 +29,10 @@ export class ImportFullscreenComponent implements OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  protected contentToImport: Person[] = [];
-  protected visible = false
-  protected showPreview = false;
-  protected dropError: ImportError = null;
+  protected readonly contentToImport = signal<Person[]>([]);
+  protected readonly visible = signal(false);
+  protected readonly showPreview = signal(false);
+  protected readonly dropError = signal<ImportError>(null);
 
   public allowedFileTypes = input.required<string[]>()
   public importConfirmed = output();
@@ -43,23 +42,23 @@ export class ImportFullscreenComponent implements OnDestroy {
   constructor() {
     this.subscriptions.push(
       this.eventBus.on(EventType.DROP_ERROR, (errorType) => {
-        this.dropError = errorType as ImportError;
+        this.dropError.set(errorType as ImportError);
       })
     );
 
     this.subscriptions.push(
       this.eventBus.on(EventType.TXT_FILE_UPLOADED, (persons) => {
-        this.contentToImport = persons as Person[];
-        this.showPreview = true;
-        this.dropError = null;
+        this.contentToImport.set(persons as Person[]);
+        this.showPreview.set(true);
+        this.dropError.set(null);
       })
     );
 
     this.subscriptions.push(
       this.eventBus.on(EventType.JSON_FILE_UPLOADED, (persons) => {
-        this.contentToImport = persons as Person[];
-        this.showPreview = true;
-        this.dropError = null;
+        this.contentToImport.set(persons as Person[]);
+        this.showPreview.set(true);
+        this.dropError.set(null);
       })
     );
   }
@@ -91,15 +90,15 @@ export class ImportFullscreenComponent implements OnDestroy {
   protected onDragOver(dragEvent: DragEvent) {
     dragEvent.preventDefault();
 
-    if (this.showPreview) {
-      this.showPreview = false;
+    if (this.showPreview()) {
+      this.showPreview.set(false);
     }
 
     const dataTransfer = dragEvent.dataTransfer;
 
     if (!dataTransfer) return;
 
-    this.visible = true;
+    this.visible.set(true);
     const types = dataTransfer?.types;
 
     if (types && types.includes("Files")) {
@@ -111,7 +110,7 @@ export class ImportFullscreenComponent implements OnDestroy {
 
 
   protected onDragLeave() {
-    this.visible = false;
+    this.visible.set(false);
   }
 
 
@@ -131,13 +130,13 @@ export class ImportFullscreenComponent implements OnDestroy {
 
 
   private onDropError(error: ImportError) {
-    this.dropError = error;
+    this.dropError.set(error);
     setTimeout(() => this.reset(), 3000);
   }
 
 
   private reset() {
-    this.visible = false;
-    this.dropError = null;
+    this.visible.set(false);
+    this.dropError.set(null);
   }
 }

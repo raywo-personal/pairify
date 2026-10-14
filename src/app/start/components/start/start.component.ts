@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from "@angular/core";
+import {Component, inject} from "@angular/core";
 import {PersonService} from "../../../persons/services/person.service";
 import {AsyncPipe} from "@angular/common";
 import {ClaimComponent} from "../claim/claim.component";
@@ -13,7 +13,6 @@ import {GroupingComponent} from "../../../grouping/components/grouping/grouping.
     GroupingComponent
   ],
   templateUrl: './start.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './start.component.scss'
 })
 export class StartComponent {

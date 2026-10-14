@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, TemplateRef, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, inject, OnDestroy, signal, TemplateRef, ViewChild} from "@angular/core";
 import {PersonService} from "../../services/person.service";
 import {AsyncPipe, NgTemplateOutlet} from "@angular/common";
 import {PersonViewComponent} from "../person-view/person-view.component";
@@ -35,7 +35,6 @@ import {ActivatedRoute} from "@angular/router";
     ImportDropErrorComponent
   ],
   templateUrl: './person-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './person-list.component.scss'
 })
 export class PersonListComponent implements AfterViewInit, OnDestroy {
@@ -49,7 +48,7 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  protected contentToImport: Person[] = [];
+  protected readonly contentToImport = signal<Person[]>([]);
   protected readonly allowedFileTypes = ["application/json", "text/plain"];
 
   protected readonly filteredPersons$ = this.personService.filteredPersons$;
@@ -59,11 +58,11 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
     .pipe(map(persons => persons.map(p => p.name)));
 
   protected nameSortOrder = "asc";
-  protected personToAdd?: Person;
-  protected personToEdit?: Person;
+  protected readonly personToAdd = signal<Person | undefined>(undefined);
+  protected readonly personToEdit = signal<Person | undefined>(undefined);
 
-  protected isDraggingOver = false;
-  protected fileImportError: ImportError = null;
+  protected readonly isDraggingOver = signal(false);
+  protected readonly fileImportError = signal<ImportError>(null);
   protected readonly offcanvasTitle = $localize`:@@p.importPersons:Import persons`;
 
   @ViewChild("fileInput")
@@ -73,7 +72,7 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
   constructor() {
     this.subscriptions.push(
       this.eventBus.on(EventType.DRAG_OVER, () => {
-        this.isDraggingOver = true;
+        this.isDraggingOver.set(true);
         this.resetImportState();
         this.offcanvasService.dismiss("cancelled");
       })
@@ -81,27 +80,27 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
     this.subscriptions.push(
       this.eventBus.on(EventType.DRAG_LEAVE, () => {
-        this.isDraggingOver = false;
+        this.isDraggingOver.set(false);
       })
     );
 
     this.subscriptions.push(
       this.eventBus.on(EventType.DROP_ERROR, (errorType) => {
-        this.fileImportError = errorType as ImportError;
+        this.fileImportError.set(errorType as ImportError);
       })
     );
 
     this.subscriptions.push(
       this.eventBus.on(EventType.TXT_FILE_UPLOADED, (persons) => {
-        this.contentToImport = persons as Person[];
-        this.fileImportError = null;
+        this.contentToImport.set(persons as Person[]);
+        this.fileImportError.set(null);
       })
     );
 
     this.subscriptions.push(
       this.eventBus.on(EventType.JSON_FILE_UPLOADED, (persons) => {
-        this.contentToImport = persons as Person[];
-        this.fileImportError = null;
+        this.contentToImport.set(persons as Person[]);
+        this.fileImportError.set(null);
       })
     );
 
@@ -126,12 +125,12 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
 
   protected get isImportable(): boolean {
-    return this.contentToImport.length > 0;
+    return this.contentToImport().length > 0;
   }
 
 
   protected onAdd() {
-    this.personToAdd = createPerson("");
+    this.personToAdd.set(createPerson(""));
   }
 
 
@@ -154,29 +153,29 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
 
   protected onAddCancelled() {
-    this.personToAdd = undefined;
+    this.personToAdd.set(undefined);
   }
 
 
   protected onEditCancelled() {
-    this.personToEdit = undefined;
+    this.personToEdit.set(undefined);
   }
 
 
   protected onEditSaved(person: Person) {
     this.personService.addPerson(person);
-    this.personToAdd = createPerson("");
+    this.personToAdd.set(createPerson(""));
   }
 
 
   protected onEdited(person: Person) {
     this.personService.updatePerson(person);
-    this.personToEdit = undefined;
+    this.personToEdit.set(undefined);
   }
 
 
   protected onEditPersonClick(person: Person) {
-    this.personToEdit = person;
+    this.personToEdit.set(person);
   }
 
 
@@ -193,12 +192,12 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
 
   protected onImportConfirmed() {
-    this.isDraggingOver = false;
+    this.isDraggingOver.set(false);
   }
 
 
   protected onImportCancelled() {
-    this.isDraggingOver = false;
+    this.isDraggingOver.set(false);
   }
 
 
@@ -244,8 +243,8 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
 
 
   private resetImportState(emitResetEvent = true) {
-    this.contentToImport = [];
-    this.fileImportError = null;
+    this.contentToImport.set([]);
+    this.fileImportError.set(null);
 
     if (this.fileInput) {
       this.fileInput.value = "";

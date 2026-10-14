@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {Component} from "@angular/core";
 import {RouterLink} from "@angular/router";
 
 
@@ -8,7 +8,6 @@ import {RouterLink} from "@angular/router";
     RouterLink
   ],
   templateUrl: './claim.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './claim.component.scss'
 })
 export class ClaimComponent {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, effect, inject, input, model, OnInit, output, ViewChild} from "@angular/core";
+import {Component, effect, inject, input, model, OnInit, output, ViewChild} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, switchMap} from "rxjs";
 import {NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
@@ -12,7 +12,6 @@ import {PersonService} from "../../services/person.service";
     NgbTypeahead
   ],
   templateUrl: './search-field.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './search-field.component.scss'
 })
 export class SearchFieldComponent implements OnInit {
