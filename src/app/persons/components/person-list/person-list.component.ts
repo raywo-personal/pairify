@@ -57,7 +57,7 @@ export class PersonListComponent implements AfterViewInit, OnDestroy {
   protected readonly filterSource$ = this.filteredPersons$
     .pipe(map(persons => persons.map(p => p.name)));
 
-  protected nameSortOrder = "asc";
+  protected readonly nameSortOrder = this.personService.nameSortOrder.asReadonly();
   protected readonly personToAdd = signal<Person | undefined>(undefined);
   protected readonly personToEdit = signal<Person | undefined>(undefined);
 

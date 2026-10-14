@@ -81,9 +81,9 @@
 
 <ng-template #nameSortSymbol>
   <span class="sort-symbol me-2">
-    @if (nameSortOrder === 'asc') {
+    @if (nameSortOrder() === 'asc') {
       <i class="bi-sort-alpha-down"></i>
-    } @else if (nameSortOrder === 'desc') {
+    } @else if (nameSortOrder() === 'desc') {
       <i class="bi-sort-alpha-up"></i>
     } @else {
       &nbsp;
