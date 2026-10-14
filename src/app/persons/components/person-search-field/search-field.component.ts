@@ -1,8 +1,8 @@
-import {Component, effect, inject, input, model, OnInit, output, ViewChild} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, switchMap} from 'rxjs';
-import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-import {PersonService} from '../../services/person.service';
+import {Component, effect, inject, input, model, OnInit, output, ViewChild} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, switchMap} from "rxjs";
+import {NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
+import {PersonService} from "../../services/person.service";
 
 
 @Component({

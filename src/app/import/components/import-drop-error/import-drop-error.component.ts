@@ -1,5 +1,5 @@
-import {Component, input} from '@angular/core';
-import {ImportError} from '../../models/import-error.type';
+import {Component, input} from "@angular/core";
+import {ImportError} from "../../models/import-error.type";
 
 
 @Component({

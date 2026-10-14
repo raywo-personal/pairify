@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Pairify is a client-only Angular 19 app that randomly splits a list of
+Pairify is a client-only Angular app that randomly splits a list of
 persons into evenly sized teams, optionally assigning one "driver" per team
 (driver-navigator pairing). There is no backend; all state lives in
 `localStorage`. Deployed as static assets on a Cloudflare Worker at
@@ -16,11 +16,14 @@ Use `pnpm`, never `npm`/`npx`.
 pnpm install
 pnpm start                 # dev server on http://localhost:4200
 pnpm build                 # production build into dist/pairify
-pnpm test                  # Karma + Jasmine in Chrome (watch mode)
+pnpm test                  # Vitest in jsdom (watch mode)
 pnpm test --watch=false    # single run
 pnpm test --include src/app/grouping/services/grouping.service.spec.ts
 pnpm lint                  # angular-eslint over src/**/*.ts and *.html
 ```
+
+Stub browser APIs that jsdom lacks in `src/test-setup.ts`, not in
+individual specs.
 
 Deployment runs only through the GitHub Actions workflow
 `deploy-to-cloudflare-workers.yml` on every push to `main`; do not deploy
@@ -89,6 +92,19 @@ persons.
 - Component and directive selectors use the `app` prefix (enforced by lint).
 - Use double quotes in TypeScript (`.editorconfig`), including imports and
   decorators.
+
+## Angular MCP server
+
+`.mcp.json` registers the Angular CLI MCP server (`pnpm exec ng mcp`).
+
+- Look up Angular APIs with `search_documentation` instead of relying on
+  memory.
+- Keep the server on the project's local CLI. Do not switch it to
+  `pnpm dlx @angular/cli@latest` – docs and best practices would then
+  describe a different Angular version than the one installed.
+- The architecture described in this file overrides `get_best_practices`.
+  State stays in `BehaviorSubject`s with the event bus; do not migrate it
+  to signals unless asked.
 
 ## Plugin Bindings
 

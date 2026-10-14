@@ -1,23 +1,25 @@
 <div class="import"
-     [class.error]="dropError"
-     [class.success]="showPreview"
+     [class.error]="dropError()"
+     [class.success]="showPreview()"
      (dragover)="onDragOver($event)"
      (dragleave)="onDragLeave()"
      (drop)="onDrop($event)">
+  <!-- Escape dismisses the overlay for keyboard users, see the host binding. -->
+  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div class="import-overlay"
-       [class.fade]="!visible"
-       [class.show]="visible"
-       (click)="onBackDropClick()"></div>
+       [class.fade]="!visible()"
+       [class.show]="visible()"
+       (click)="onDismiss()"></div>
 
   <div class="import-hint"
-       [class.fade]="!visible"
-       [class.show]="visible">
+       [class.fade]="!visible()"
+       [class.show]="visible()">
 
-    @if (dropError) {
+    @if (dropError(); as dropError) {
       <app-import-drop-error [importError]="dropError"/>
     } @else {
-      @if (showPreview) {
-        <app-import-preview [persons]="contentToImport"
+      @if (showPreview()) {
+        <app-import-preview [persons]="contentToImport()"
                             (importCancelled)="onImportCancelled()"
                             (importConfirmed)="onImportConfirmed()"/>
       } @else {

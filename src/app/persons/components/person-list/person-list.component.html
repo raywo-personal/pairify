@@ -45,7 +45,7 @@
 </div>
 
 <div class="persons content-area scrollable-area">
-  @if (personToAdd) {
+  @if (personToAdd(); as personToAdd) {
     <div class="mb-4">
       <app-person-edit
         [person]="personToAdd"
@@ -62,7 +62,7 @@
           (keyup)="onEditPersonKeyup(person, $event)"
           tabindex="1">
         <app-person-view [person]="person"
-                         [editing]="personToEdit?.id === person.id"
+                         [editing]="personToEdit()?.id === person.id"
                          (edited)="onEdited($event)"
                          (delete)="onDeleted($event)"
                          (editCancelled)="onEditCancelled()"/>
@@ -72,7 +72,7 @@
 </div>
 
 
-@if (isDraggingOver) {
+@if (isDraggingOver()) {
   <app-import-fullscreen [allowedFileTypes]="allowedFileTypes"
                          (importConfirmed)="onImportConfirmed()"
                          (importCancelled)="onImportCancelled()"/>
@@ -81,9 +81,9 @@
 
 <ng-template #nameSortSymbol>
   <span class="sort-symbol me-2">
-    @if (nameSortOrder === 'asc') {
+    @if (nameSortOrder() === 'asc') {
       <i class="bi-sort-alpha-down"></i>
-    } @else if (nameSortOrder === 'desc') {
+    } @else if (nameSortOrder() === 'desc') {
       <i class="bi-sort-alpha-up"></i>
     } @else {
       &nbsp;
@@ -122,12 +122,12 @@
                #fileInput>
       </div>
 
-      @if (fileImportError) {
+      @if (fileImportError(); as fileImportError) {
         <app-import-drop-error [importError]="fileImportError"/>
       }
 
       @if (isImportable) {
-        <app-import-preview [persons]="contentToImport"
+        <app-import-preview [persons]="contentToImport()"
                             [showButtons]="false"/>
       } @else {
         <app-import-hint/>

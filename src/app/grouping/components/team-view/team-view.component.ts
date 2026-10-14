@@ -1,6 +1,6 @@
-import {Component, input} from '@angular/core';
-import {Team} from '../../models/Team.model';
-import {Person} from '../../../persons/models/person.model';
+import {Component, input} from "@angular/core";
+import {Team} from "../../models/Team.model";
+import {Person} from "../../../persons/models/person.model";
 
 
 @Component({

@@ -1,6 +1,6 @@
-import {Component, input, output} from '@angular/core';
-import {Person} from '../../../persons/models/person.model';
-import {PersonViewComponent} from '../../../persons/components/person-view/person-view.component';
+import {Component, input, output} from "@angular/core";
+import {Person} from "../../../persons/models/person.model";
+import {PersonViewComponent} from "../../../persons/components/person-view/person-view.component";
 
 
 @Component({

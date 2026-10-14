@@ -1,7 +1,7 @@
-import {Component, effect, input, output} from '@angular/core';
-import {Person} from '../../models/person.model';
-import {FormsModule} from '@angular/forms';
-import {AutofocusDirective} from '../../../shared/directives/autofocus.directive';
+import {Component, effect, input, output} from "@angular/core";
+import {Person} from "../../models/person.model";
+import {FormsModule} from "@angular/forms";
+import {AutofocusDirective} from "../../../shared/directives/autofocus.directive";
 
 
 @Component({

@@ -1,5 +1,5 @@
-import {Component, effect, ElementRef, HostListener, inject, input, OnInit, output, Renderer2, TemplateRef, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {Component, effect, ElementRef, HostListener, inject, input, OnInit, output, Renderer2, TemplateRef, ViewChild} from "@angular/core";
+import {NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({

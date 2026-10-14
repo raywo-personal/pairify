@@ -1,10 +1,10 @@
-import {Component, inject} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {GroupingService} from '../../services/grouping.service';
-import {AsyncPipe} from '@angular/common';
-import {TeamViewComponent} from '../team-view/team-view.component';
-import {PersonService} from '../../../persons/services/person.service';
-import {AutofocusDirective} from '../../../shared/directives/autofocus.directive';
+import {Component, inject} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {GroupingService} from "../../services/grouping.service";
+import {AsyncPipe} from "@angular/common";
+import {TeamViewComponent} from "../team-view/team-view.component";
+import {PersonService} from "../../../persons/services/person.service";
+import {AutofocusDirective} from "../../../shared/directives/autofocus.directive";
 
 
 @Component({

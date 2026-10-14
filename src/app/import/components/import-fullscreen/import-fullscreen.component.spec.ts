@@ -21,4 +21,13 @@ describe('ImportFullscreenComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should cancel the import when Escape is pressed', () => {
+    let cancelled = false;
+    component.importCancelled.subscribe(() => cancelled = true);
+
+    document.dispatchEvent(new KeyboardEvent("keydown", {key: "Escape"}));
+
+    expect(cancelled).toBe(true);
+  });
 });

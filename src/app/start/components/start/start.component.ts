@@ -1,8 +1,8 @@
-import {Component, inject} from '@angular/core';
-import {PersonService} from '../../../persons/services/person.service';
-import {AsyncPipe} from '@angular/common';
-import {ClaimComponent} from '../claim/claim.component';
-import {GroupingComponent} from '../../../grouping/components/grouping/grouping.component';
+import {Component, inject} from "@angular/core";
+import {PersonService} from "../../../persons/services/person.service";
+import {AsyncPipe} from "@angular/common";
+import {ClaimComponent} from "../claim/claim.component";
+import {GroupingComponent} from "../../../grouping/components/grouping/grouping.component";
 
 
 @Component({
