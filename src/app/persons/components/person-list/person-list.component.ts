@@ -1,23 +1,23 @@
-import {AfterViewInit, Component, inject, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
-import {PersonService} from '../../services/person.service';
-import {AsyncPipe, NgTemplateOutlet} from '@angular/common';
-import {PersonViewComponent} from '../person-view/person-view.component';
-import {DeleteButtonComponent} from '../../../shared/components/delete-button/delete-button.component';
-import {SearchFieldComponent} from '../person-search-field/search-field.component';
-import {map, Subscription} from 'rxjs';
-import {PersonEditComponent} from '../person-edit/person-edit.component';
-import {createPerson, Person} from '../../models/person.model';
-import {ImportFullscreenComponent} from '../../../import/components/import-fullscreen/import-fullscreen.component';
-import {EventBusService} from '../../../shared/event-bus/event-bus.service';
-import {EventType} from '../../../shared/event-bus/event.model';
-import {NgbOffcanvas, NgbOffcanvasOptions} from '@ng-bootstrap/ng-bootstrap';
-import {UploadService} from '../../../import/services/upload.service';
-import {ImportPreviewComponent} from '../../../import/components/import-preview/import-preview.component';
-import {ImportService} from '../../../import/services/import.service';
-import {ImportHintComponent} from '../../../import/components/import-hint/import-hint.component';
-import {ImportError} from '../../../import/models/import-error.type';
-import {ImportDropErrorComponent} from '../../../import/components/import-drop-error/import-drop-error.component';
-import {ActivatedRoute} from '@angular/router';
+import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, TemplateRef, ViewChild} from "@angular/core";
+import {PersonService} from "../../services/person.service";
+import {AsyncPipe, NgTemplateOutlet} from "@angular/common";
+import {PersonViewComponent} from "../person-view/person-view.component";
+import {DeleteButtonComponent} from "../../../shared/components/delete-button/delete-button.component";
+import {SearchFieldComponent} from "../person-search-field/search-field.component";
+import {map, Subscription} from "rxjs";
+import {PersonEditComponent} from "../person-edit/person-edit.component";
+import {createPerson, Person} from "../../models/person.model";
+import {ImportFullscreenComponent} from "../../../import/components/import-fullscreen/import-fullscreen.component";
+import {EventBusService} from "../../../shared/event-bus/event-bus.service";
+import {EventType} from "../../../shared/event-bus/event.model";
+import {NgbOffcanvas, NgbOffcanvasOptions} from "@ng-bootstrap/ng-bootstrap";
+import {UploadService} from "../../../import/services/upload.service";
+import {ImportPreviewComponent} from "../../../import/components/import-preview/import-preview.component";
+import {ImportService} from "../../../import/services/import.service";
+import {ImportHintComponent} from "../../../import/components/import-hint/import-hint.component";
+import {ImportError} from "../../../import/models/import-error.type";
+import {ImportDropErrorComponent} from "../../../import/components/import-drop-error/import-drop-error.component";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -35,6 +35,7 @@ import {ActivatedRoute} from '@angular/router';
     ImportDropErrorComponent
   ],
   templateUrl: './person-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './person-list.component.scss'
 })
 export class PersonListComponent implements AfterViewInit, OnDestroy {

@@ -1,6 +1,6 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {filter, map} from 'rxjs';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from "@angular/core";
+import {NavigationEnd, Router} from "@angular/router";
+import {filter, map} from "rxjs";
 
 
 @Component({
@@ -8,6 +8,7 @@ import {filter, map} from 'rxjs';
   selector: '[app-top-bar]',
   imports: [],
   templateUrl: './top-bar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './top-bar.component.scss'
 })
 export class TopBarComponent implements OnInit {

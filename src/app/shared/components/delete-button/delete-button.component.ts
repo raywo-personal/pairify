@@ -1,5 +1,5 @@
-import {Component, effect, ElementRef, HostListener, inject, input, OnInit, output, Renderer2, TemplateRef, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {ChangeDetectionStrategy, Component, effect, ElementRef, HostListener, inject, input, OnInit, output, Renderer2, TemplateRef, ViewChild} from "@angular/core";
+import {NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({
@@ -8,6 +8,7 @@ import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
   imports: [],
   templateUrl: './delete-button.component.html',
   styleUrl: './delete-button.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: "btn"
   }

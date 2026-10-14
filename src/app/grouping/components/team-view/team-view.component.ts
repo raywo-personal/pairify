@@ -1,12 +1,13 @@
-import {Component, input} from '@angular/core';
-import {Team} from '../../models/Team.model';
-import {Person} from '../../../persons/models/person.model';
+import {ChangeDetectionStrategy, Component, input} from "@angular/core";
+import {Team} from "../../models/Team.model";
+import {Person} from "../../../persons/models/person.model";
 
 
 @Component({
   selector: 'app-team-view',
   imports: [],
   templateUrl: './team-view.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './team-view.component.scss'
 })
 export class TeamViewComponent {

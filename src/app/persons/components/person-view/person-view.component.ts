@@ -1,7 +1,7 @@
-import {Component, input, model, output} from '@angular/core';
-import {Person} from '../../models/person.model';
-import {DeleteButtonComponent} from '../../../shared/components/delete-button/delete-button.component';
-import {PersonEditComponent} from '../person-edit/person-edit.component';
+import {ChangeDetectionStrategy, Component, input, model, output} from "@angular/core";
+import {Person} from "../../models/person.model";
+import {DeleteButtonComponent} from "../../../shared/components/delete-button/delete-button.component";
+import {PersonEditComponent} from "../person-edit/person-edit.component";
 
 
 @Component({
@@ -11,6 +11,7 @@ import {PersonEditComponent} from '../person-edit/person-edit.component';
     PersonEditComponent
   ],
   templateUrl: './person-view.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './person-view.component.scss'
 })
 export class PersonViewComponent {

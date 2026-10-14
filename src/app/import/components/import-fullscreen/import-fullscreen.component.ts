@@ -1,14 +1,14 @@
-import {Component, inject, input, OnDestroy, output} from '@angular/core';
-import {ImportPreviewComponent} from '../import-preview/import-preview.component';
-import {ImportError} from '../../models/import-error.type';
-import {ImportDropErrorComponent} from '../import-drop-error/import-drop-error.component';
-import {ImportService} from '../../services/import.service';
-import {EventBusService} from '../../../shared/event-bus/event-bus.service';
-import {EventType} from '../../../shared/event-bus/event.model';
-import {Subscription} from 'rxjs';
-import {UploadService} from '../../services/upload.service';
-import {Person} from '../../../persons/models/person.model';
-import {ImportHintComponent} from '../import-hint/import-hint.component';
+import {ChangeDetectionStrategy, Component, inject, input, OnDestroy, output} from "@angular/core";
+import {ImportPreviewComponent} from "../import-preview/import-preview.component";
+import {ImportError} from "../../models/import-error.type";
+import {ImportDropErrorComponent} from "../import-drop-error/import-drop-error.component";
+import {ImportService} from "../../services/import.service";
+import {EventBusService} from "../../../shared/event-bus/event-bus.service";
+import {EventType} from "../../../shared/event-bus/event.model";
+import {Subscription} from "rxjs";
+import {UploadService} from "../../services/upload.service";
+import {Person} from "../../../persons/models/person.model";
+import {ImportHintComponent} from "../import-hint/import-hint.component";
 
 
 @Component({
@@ -19,6 +19,7 @@ import {ImportHintComponent} from '../import-hint/import-hint.component';
     ImportHintComponent
   ],
   templateUrl: './import-fullscreen.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './import-fullscreen.component.scss'
 })
 export class ImportFullscreenComponent implements OnDestroy {
