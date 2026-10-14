@@ -16,11 +16,14 @@ Use `pnpm`, never `npm`/`npx`.
 pnpm install
 pnpm start                 # dev server on http://localhost:4200
 pnpm build                 # production build into dist/pairify
-pnpm test                  # Karma + Jasmine in Chrome (watch mode)
+pnpm test                  # Vitest in jsdom (watch mode)
 pnpm test --watch=false    # single run
 pnpm test --include src/app/grouping/services/grouping.service.spec.ts
 pnpm lint                  # angular-eslint over src/**/*.ts and *.html
 ```
+
+Stub browser APIs that jsdom lacks in `src/test-setup.ts`, not in
+individual specs.
 
 Deployment runs only through the GitHub Actions workflow
 `deploy-to-cloudflare-workers.yml` on every push to `main`; do not deploy
