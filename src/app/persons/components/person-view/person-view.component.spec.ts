@@ -15,6 +15,7 @@ describe('PersonViewComponent', () => {
 
     fixture = TestBed.createComponent(PersonViewComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("person", {id: "p1", name: "Ada"});
     fixture.detectChanges();
   });
 

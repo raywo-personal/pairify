@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {provideRouter} from "@angular/router";
 
 import {ClaimComponent} from './claim.component';
 
@@ -9,7 +10,8 @@ describe('AppClaimComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClaimComponent]
+      imports: [ClaimComponent],
+      providers: [provideRouter([])]
     })
     .compileComponents();
 

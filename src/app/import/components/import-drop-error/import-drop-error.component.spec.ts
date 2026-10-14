@@ -15,6 +15,7 @@ describe('ImportDropErrorComponent', () => {
 
     fixture = TestBed.createComponent(ImportDropErrorComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("importError", "unsupported");
     fixture.detectChanges();
   });
 

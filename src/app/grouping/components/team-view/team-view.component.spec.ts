@@ -15,6 +15,7 @@ describe('TeamViewComponent', () => {
 
     fixture = TestBed.createComponent(TeamViewComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("team", {id: "t1", name: "Team 1", persons: []});
     fixture.detectChanges();
   });
 
