@@ -29,6 +29,21 @@
     font-weight: 300;
   }
 
+  .legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+
+    margin-bottom: 0.25rem;
+    padding: 0;
+
+    list-style: none;
+
+    i {
+      margin-right: 0.25rem;
+    }
+  }
+
   .tooltip {
     display: none;
   }

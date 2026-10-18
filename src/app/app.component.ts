@@ -1,5 +1,6 @@
 import {Component, inject, OnInit} from "@angular/core";
 import {RouterOutlet} from "@angular/router";
+import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {NavigationComponent} from "./navigation/components/navigation/navigation.component";
 import {TopBarComponent} from "./navigation/components/top-bar/top-bar.component";
 import {PersistenceService} from "./shared/services/persistence.service";
@@ -9,7 +10,7 @@ import {createBusEvent, EventType} from "./shared/event-bus/event.model";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavigationComponent, TopBarComponent],
+  imports: [RouterOutlet, NavigationComponent, TopBarComponent, NgbTooltip],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
