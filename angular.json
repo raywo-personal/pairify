@@ -29,6 +29,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "LICENSE",
+                "input": "node_modules/@fontsource-variable/inter",
+                "output": "media/inter"
               }
             ],
             "styles": [

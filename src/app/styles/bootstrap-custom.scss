@@ -43,10 +43,6 @@
   $vr-border-width: 2px,
 );
 
-// In order to avoid errors regarding the order of @use and @import
-// we do the import after the use.
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 .badge {
   font-weight: 500;
 }
