@@ -17,11 +17,32 @@
     <nav class="sidebar-body" app-navigation></nav>
 
     <footer class="sidebar-footer">
-      <ng-container i18n="@@t.madeByMessage">Made by raywo with</ng-container>&nbsp;<i class="bi-heart-fill text-danger"></i>&nbsp;|&nbsp;
-      <i class="bi-github"></i>&nbsp;
-      <a href="https://github.com/raywo-personal/pairify" target="_blank">
-        Source code
-      </a>
+      <ul class="legal-links">
+        <li>
+          <a href="https://www.skillbird.de/datenschutz/" target="_blank">
+            <i class="bi-shield-lock"
+               ngbTooltip="Privacy policy"
+               i18n-ngbTooltip="@@t.privacyPolicy"></i>
+            <span class="legal-title" i18n="@@t.privacyPolicy">Privacy policy</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.skillbird.de/impressum/" target="_blank">
+            <i class="bi-info-circle"
+               ngbTooltip="Imprint"
+               i18n-ngbTooltip="@@t.imprint"></i>
+            <span class="legal-title" i18n="@@t.imprint">Imprint</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="footer-credits">
+        <ng-container i18n="@@t.madeByMessage">Made by raywo with</ng-container>&nbsp;<i class="bi-heart-fill text-danger"></i>&nbsp;|&nbsp;
+        <i class="bi-github"></i>&nbsp;
+        <a href="https://github.com/raywo-personal/pairify" target="_blank">
+          Source code
+        </a>
+      </div>
     </footer>
   </aside>
 
